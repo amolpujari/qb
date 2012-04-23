@@ -54,7 +54,7 @@ module AttachmentsHelper
     files = attachable.non_image_attachments
     return '' if files.empty?
     files.each do |file|
-      html <<	"<div style='margin:5px;' class='line'><img src='/images/attachement_icon.jpg'/>&nbsp;<a href='#{file.upload.url}' target='_blank' >Download #{file.upload_file_name}</a></div>"
+      html <<	"<div style='margin:5px;' class='line'><img src='/assets/attachement_icon.jpg'/>&nbsp;<a href='#{file.upload.url}' target='_blank' >Download #{file.upload_file_name}</a></div>"
     end
     html
   end
@@ -98,7 +98,7 @@ module AttachmentsHelper
       html << link_to(image_tag(object.upload.url(:thumb),
           :border => 0, :class => 'attachment_img'),object.upload.url)
     else
-      html << "<img src=\"/images/attachement_icon.jpg\" />&nbsp;<a href=\"#{object.upload.url}\">#{object.upload_file_name}</a>"
+      html << "<img src=\"/assets/attachement_icon.jpg\" />&nbsp;<a href=\"#{object.upload.url}\">#{object.upload_file_name}</a>"
     end
     html << "&nbsp; &nbsp; &nbsp;"
     html << link_to( "Remove", "/attachments/#{object.id}?attachment_number=#{index}",
@@ -123,7 +123,6 @@ module AttachmentsHelper
 
   def add_more( last_element, index, display = 'block')
     html = "<div id='add_more_#{index}' style='display:#{display}'>"
-    html << "<p style='margin:0'>fOR MORE UPLOADS</p>"
     html << "<a href=\"#\" onclick=\"document.getElementById('additional_upload_#{(index+1)}').style.display = 'block';"
     html << "document.getElementById('add_more_#{index}').style.display = 'none';"
     html << "document.getElementById('add_more_#{(index+1)}').style.display = 'block'; increase_popup_height();" unless last_element

@@ -39,7 +39,9 @@ module AttachableModule
 
     def save_attachments(attachments)
       return true if attachments.blank?
+      @attachments_errors = []
       attachments.first(self.class.max_attachments_allowed).each do |attachment|
+        next if attachment.blank?
         new_attachment = self.attachments.build({:upload=>attachment})
         unless new_attachment.valid?
           attachments_errors << "Attachment - #{new_attachment.upload_file_name}: File type is not allowed. Allowed file types are images, pdf, msword, text files." unless new_attachment.errors[:upload_content_type].empty?

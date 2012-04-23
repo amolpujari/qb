@@ -3,6 +3,11 @@ class CreateStatements < ActiveRecord::Migration
     create_table :statements do |t|
       t.string :title
       t.text :body
+
+      t.integer :user_id
+
+      t.references :statement_for, :polymorphic => true
+
       t.timestamps
     end
   end

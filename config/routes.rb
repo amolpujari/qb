@@ -1,5 +1,5 @@
-Myapp::Application.routes.draw do
-  resources :statements
+Qb::Application.routes.draw do
+  resources :questions
 
   delete '/attachments/:id' => 'attachments#delete'
 

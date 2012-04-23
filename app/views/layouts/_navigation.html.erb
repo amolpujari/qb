@@ -1,5 +1,11 @@
-<%= link_to "Myapp", root_path, :class => 'brand' %>
+<%= link_to "qb", root_path, :class => 'brand' %>
 <ul class="nav">
+  <li>
+    <%= link_to('Questions', '/questions/')  %>
+  </li>
+</ul>
+
+<ul class="nav" style="float:right;">
   <% if user_signed_in? %>
     <li>
       <%= link_to('Logout', destroy_user_session_path, :method=>'delete') %>
@@ -23,7 +29,4 @@
       <%= link_to('Sign up', new_user_registration_path)  %>
     </li>
   <% end %>
-  <li>
-    <%= link_to('Statements', statements_path)  %>
-  </li>
 </ul>
