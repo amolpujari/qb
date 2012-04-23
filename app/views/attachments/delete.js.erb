@@ -1,0 +1,1 @@
+$("attachment_show_<%= @attachment_count %>").innerHTML =("<%= escape_javascript( render(:partial => 'attachments/show_attachment', :locals => {:attachment_count => @attachment_count}) ) %>");

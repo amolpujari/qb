@@ -1,0 +1,7 @@
+<div id="additional_upload_<%=@attachment_count%>" style="display:block">
+  <p><label for="attachment">Upload</label>:&nbsp;
+    <input id="input_file_<%=@attachment_count%>" type="file" name="attachment[]" style="width:auto;" accept="image, application/pdf, application/msword, text/plain" size="50%"/>
+    <span class="seperator4" style="margin-left:10px;">| </span>
+    <a href="javascript:void(0)" onclick='clear_inputs("input_file_<%= @attachment_count%>");'>Clear</a>
+  <div class="line" style="width:100%"></div></p>
+</div>
