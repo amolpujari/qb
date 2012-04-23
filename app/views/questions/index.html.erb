@@ -1,0 +1,28 @@
+<h3>Questions</h3>
+
+<div class="well">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @questions.each do |question| %>
+        <tr>
+          <td>
+            <%= question.title %>
+            <br/><i>by <%=question.user.email%></i>
+          </td>
+          <td><%= link_to "Show", question, :class => 'btn btn-mini btn-primary' %></td>
+          <td><%= link_to "Edit", edit_question_path(question), :class => 'btn btn-mini' %></td>
+          <td><%= link_to "Destroy", question, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-mini btn-danger' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<p><%= link_to "New Question", new_question_path, :class => 'btn primary' %></p>

@@ -1,0 +1,19 @@
+<%= form_for @question, :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend><%= form_action_title %> Question</legend>
+
+    <fieldset>
+      <%= raw errors_for @question %>
+      
+      <%= raw input_line_text 'title', { :object => 'statement' }%>
+      <%= raw input_tinymce 'body', { :object => 'statement' , :label => 'Statement' }  %>
+      <%= raw input_attachments :object => 'statement' %>
+    </fieldset>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', questions_path, :class => 'btn' %>
+    </div>
+  </fieldset>
+
+<% end %>
