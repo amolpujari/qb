@@ -27,11 +27,9 @@ Qb::Application.configure do
     domain: "qb.gslab.com",
     authentication: "plain",
     enable_starttls_auto: true,
-    user_name: 'amolpujari',
-    password: 'pranali1'
+    user_name: 'amol.testing123',
+    password: 'taktook123'
   }
-
-
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
