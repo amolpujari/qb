@@ -75,7 +75,7 @@ Qb::Application.configure do
     domain: "qb.gslab.com",
     authentication: "plain",
     enable_starttls_auto: true,
-    user_name: '"qb" <amol.testing123@gmail.com>',
+    user_name: 'amol.testing123',
     password: 'taktook123'
   }
 
