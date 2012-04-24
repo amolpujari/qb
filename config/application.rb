@@ -63,6 +63,8 @@ module Qb
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    config.assets.initialize_on_precompile = false # for heroku
     
     config.middleware.use ExceptionNotifier,
       :email_prefix => "[qb exception] ",
