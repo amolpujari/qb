@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/rails/exception_notification.git
+  revision: 192a49a02d63d28b23ed41cebadfedd490929cf1
+  specs:
+    exception_notification (1.0.0)
+
+GIT
   remote: https://github.com/entropillc/bootstrapped.git
   revision: f1daa3870ac949a5cc3d4037894fd4f317b688eb
   specs:
@@ -182,6 +188,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   devise (>= 2.1.0.rc)
   devise_invitable (>= 1.0.1)
+  exception_notification!
   heroku
   jquery-rails
   less-rails-fontawesome

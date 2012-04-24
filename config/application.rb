@@ -63,5 +63,10 @@ module Qb
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+    config.middleware.use ExceptionNotifier,
+      :email_prefix => "[qb exception] ",
+      :sender_address => '"qb Notifier" <admin@pqb.gslab.com>',
+      :exception_recipients => ['amolp@gslab.com']
   end
 end

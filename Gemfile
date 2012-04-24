@@ -24,3 +24,7 @@ gem 'acts-as-taggable-on', '~> 2.2.2'
 
 gem 'heroku'
 gem 'appleseed'
+
+gem "exception_notification",
+  :git => "git://github.com/rails/exception_notification.git",
+  :require => "exception_notifier"
