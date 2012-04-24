@@ -61,7 +61,7 @@ Qb::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.action_mailer.default_url_options = { :host => 'example.com' }
+  config.action_mailer.default_url_options = { :host => 'young-meadow-8539.herokuapp.com/' }
   # ActionMailer Config
   # Setup for production - deliveries, no errors raised
   config.action_mailer.delivery_method = :smtp
@@ -75,7 +75,7 @@ Qb::Application.configure do
     domain: "qb.gslab.com",
     authentication: "plain",
     enable_starttls_auto: true,
-    user_name: 'amol.testing123',
+    user_name: '"qb" <amol.testing123@gmail.com>',
     password: 'taktook123'
   }
 
