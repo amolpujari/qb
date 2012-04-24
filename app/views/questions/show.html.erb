@@ -9,6 +9,12 @@
     <%= @question.statement.body.html_safe %>
   </p>
   <p>
+    Complexity: <%= @question.complexity %>
+  </p>
+  <p>
+    Topic: <%= @question.topic %>
+  </p>
+  <p>
     <%= raw attachments_show @question.statement %>
   </p>
 

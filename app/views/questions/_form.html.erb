@@ -4,16 +4,29 @@
 
     <fieldset>
       <%= raw errors_for @question %>
-      
+
       <%= raw input_line_text 'title', { :object => 'statement' }%>
       <%= raw input_tinymce 'body', { :object => 'statement' , :label => 'Statement' }  %>
       <%= raw input_attachments :object => 'statement' %>
-    </fieldset>
 
-    <div class="form-actions">
-      <%= f.submit nil, :class => 'btn btn-primary' %>
-      <%= link_to 'Cancel', questions_path, :class => 'btn' %>
-    </div>
+      <div class="control-group">
+        <div class="controls">
+          <%= select("question", "level_list", Question::Levels.collect{|key, val| [val, key]}) %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <div class="controls">
+          <%= select("question", "topic_list", Question::Topics.collect{|key, val| [val, key]}) %>
+        </div>
+      </div>
+
   </fieldset>
+
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to 'Cancel', questions_path, :class => 'btn' %>
+  </div>
+</fieldset>
 
 <% end %>

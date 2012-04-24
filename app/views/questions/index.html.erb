@@ -8,6 +8,8 @@
         <th></th>
         <th></th>
         <th></th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -16,6 +18,12 @@
           <td>
             <%= question.title %>
             <br/><i>by <%=question.user.email%></i>
+          </td>
+          <td>
+            <%= question.complexity %>
+          </td>
+          <td>
+            <%= question.topic %>
           </td>
           <td><%= link_to "Show", question, :class => 'btn btn-mini btn-primary' %></td>
           <td><%= link_to "Edit", edit_question_path(question), :class => 'btn btn-mini' %></td>

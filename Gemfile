@@ -20,3 +20,4 @@ gem "bootstrapped", :git => 'https://github.com/entropillc/bootstrapped.git'
 gem "paperclip", "~> 3.0"
 gem 'less-rails-fontawesome', :group => :assets
 gem 'tinymce-rails'
+gem 'acts-as-taggable-on', '~> 2.2.2'

@@ -39,7 +39,7 @@ class QuestionsController < ApplicationController
   def update
     @question = Question.find(params[:id])
     @statement = @question.statement
-    if @statement.save_attachments(params[:attachment]) and @statement.update_attributes(params[:statement])
+    if @statement.save_attachments(params[:attachment]) and @statement.update_attributes(params[:statement]) and @question.update_attributes(params[:question])
       redirect_to @question, :notice  => "Successfully updated question."
     else
       @question.errors[:base] << @statement.errors

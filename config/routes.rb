@@ -1,5 +1,6 @@
 Qb::Application.routes.draw do
   resources :questions
+  get '/questions/tagged/:tag' => 'questions#tagged'
 
   delete '/attachments/:id' => 'attachments#delete'
 
