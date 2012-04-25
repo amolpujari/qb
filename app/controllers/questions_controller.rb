@@ -49,8 +49,8 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question = Question.find(params[:id])
-    @question.destroy
-    redirect_to questions_url, :notice => "Successfully destroyed question."
+    #@question = Question.find(params[:id])
+    #@question.destroy
+    redirect_to questions_url, :notice => "feature inactive."
   end
 end
