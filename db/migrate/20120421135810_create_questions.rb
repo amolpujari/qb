@@ -1,6 +1,7 @@
 class CreateQuestions < ActiveRecord::Migration
   def self.up
     create_table :questions do |t|
+      t.boolean :delta, :default => true, :null => false
       t.timestamps
     end
   end

@@ -6,4 +6,13 @@ class ApplicationController < ActionController::Base
   end
 
   before_filter :authenticate_user!
+
+  def corrected_search_filter
+    filter = params[:serach].to_s.strip rescue nil
+    return nil unless filter
+    filter = "#{filter}*" unless filter.strip.match /.*[\*]$/
+    filter = "*#{filter}" unless filter.strip.match /^[\*].*/
+    filter
+  end
+
 end

@@ -27,8 +27,9 @@ ActiveRecord::Schema.define(:version => 20120424134338) do
   add_index "attachments", ["attachable_id"], :name => "index_attachments_on_attachable_id"
 
   create_table "questions", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.boolean  "delta",      :default => true, :null => false
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
   end
 
   create_table "roles", :force => true do |t|
@@ -70,6 +71,8 @@ ActiveRecord::Schema.define(:version => 20120424134338) do
   end
 
   create_table "users", :force => true do |t|
+    t.string   "first_name",                                           :null => false
+    t.string   "last_name",                                            :null => false
     t.string   "email",                                :default => "", :null => false
     t.string   "encrypted_password",                   :default => ""
     t.string   "reset_password_token"
@@ -82,7 +85,6 @@ ActiveRecord::Schema.define(:version => 20120424134338) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                                           :null => false
     t.datetime "updated_at",                                           :null => false
-    t.string   "name"
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"

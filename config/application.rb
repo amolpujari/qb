@@ -68,7 +68,8 @@ module Qb
     
     config.middleware.use ExceptionNotifier,
       :email_prefix => "[qb exception] ",
-      :sender_address => '"qb Notifier" <admin@pqb.gslab.com>',
+      :sender_address => '"qb Notifier" <qb@gslab.com>',
       :exception_recipients => ['amolp@gslab.com']
   end
 end
+

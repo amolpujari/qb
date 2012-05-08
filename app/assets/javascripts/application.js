@@ -17,3 +17,10 @@
 
 //= require tinymce
 //= require tinymce-jquery
+
+function check_for_enter_pressed(e){
+  if (e.keyCode == 13)
+    return true;
+  
+  return false;
+}

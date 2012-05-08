@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 gem 'rails', '3.2.3'
-#gem 'mysql2'
-gem 'pg' # for heroku
+gem 'mysql2'
+#gem 'pg' # for heroku
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
@@ -29,3 +29,9 @@ gem 'appleseed'
 gem "exception_notification",
   :git => "git://github.com/rails/exception_notification.git",
   :require => "exception_notifier"
+
+gem 'thinking-sphinx', '2.0.10'
+
+#wget http://sphinxsearch.com/downloads/accept.php?file=sphinx-2.0.4-release.tar.gz
+#tar zxvf accept.php\?file\=sphinx-2.0.4-release.tar.gz
+
