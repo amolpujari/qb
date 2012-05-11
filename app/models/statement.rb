@@ -3,6 +3,4 @@ class Statement < ActiveRecord::Base
   can_have_attachments :max => 5
   belongs_to :user
   belongs_to :question, :conditions => {'statements.statement_for_type' => 'Question' }, :foreign_key => :statement_for_id
-
-  acts_as_taggable
 end

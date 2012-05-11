@@ -11,13 +11,13 @@
 
       <div class="control-group">
         <div class="controls">
-          <%= select("question", "level_list", Question::Levels.collect{|key, val| [val, key]}) %>
+          <%= select("question", "complexity_list", Question::Complexities.collect{|val| [val, val]}) %>
         </div>
       </div>
 
       <div class="control-group">
         <div class="controls">
-          <%= select("question", "topic_list", Question::Topics.collect{|key, val| [val, key]}) %>
+          <%= select("question", "topic_list", Question::Topics.collect{|val| [val, val]}) %>
         </div>
       </div>
 

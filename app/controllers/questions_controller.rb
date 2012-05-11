@@ -3,22 +3,16 @@ class QuestionsController < ApplicationController
   
   def index
     tags = []
-    tags << params[:level].to_s unless params[:level].blank?
-    tags << params[:topic].to_s unless params[:topic].blank?
+    tags << params[:complexity].to_s  unless params[:complexity].blank?
+    tags << params[:topic].to_s       unless params[:topic].blank?
+    tags << params[:search].to_s      unless params[:search].blank?
 
     # http://stackoverflow.com/questions/2082399/thinking-sphinx-and-acts-as-taggable-on-plugin
-    unless params[:search].blank?
-      condition = { :title => corrected_search_filter, :body => corrected_search_filter }
-      condition[:level_tags] = params[:level].to_s unless params[:level].blank?
-      condition[:topic_tags] = params[:topic].to_s unless params[:topic].blank?
-      @questions = Question.search params[:search].to_s, :conditions => condition, :page => params[:page]
 
-    else
-      @questions = Question.tagged_with(tags, :match_all => false).paginate(:page => params[:page]) unless tags.blank?
-      
-    end
+    @questions = Question.tagged_with(tags, :match_all => false).paginate(:page => params[:page]) unless tags.blank?
 
     @questions ||= Question.paginate(:page => params[:page])
+    
   end
 
   def show

@@ -11,11 +11,16 @@
           <input id="question_search" type="text" value="<%= params[:search] %>" onkeyup="if(check_for_enter_pressed(event)) tagged_questions();" autofocus="autofocus"/>
         </th>
         <th>
-          <%= select("question", "level_list", Question::Levels.collect{|key, val| [val, key]}, {:prompt => 'Any', :selected => params[:level]}, :onchange => 'tagged_questions();') %>
+          <%= select("question", "complexity_list", Question::Complexities.collect{|val| [val, val]}, {:prompt => 'Any', :selected => params[:complexity]}, :onchange => 'tagged_questions();') %>
         </th>
         <th>
-          <%= select("question", "topic_list", Question::Topics.collect{|key, val| [val, key]}, {:prompt => 'Any', :selected => params[:topic]}, :onchange => 'tagged_questions();') %>
+          <%= select("question", "topic_list", Question::Topics.collect{|val| [val, val]}, {:prompt => 'Any', :selected => params[:topic]}, :onchange => 'tagged_questions();') %>
         </th>
+      </tr>
+      <tr>
+        <th>Questions</th>
+        <th>Complexity</th>
+        <th>Topic</th>
       </tr>
     </thead>
     <tbody>
@@ -49,8 +54,8 @@
     if ($("#question_search").val())
       tags.push("search="+$("#question_search").val());
 
-    if ($("#question_level_list").val())
-      tags.push("level="+$("#question_level_list").val());
+    if ($("#question_complexity_list").val())
+      tags.push("complexity="+$("#question_complexity_list").val());
 
     if ($("#question_topic_list").val())
       tags.push("topic=" + $("#question_topic_list").val());
@@ -64,6 +69,6 @@
       query += tags[i] + "&";
     }
 
-    window.location = "/questions/tagged/" + query;
+    window.location = "/questions" + query;
   }
 </script>
