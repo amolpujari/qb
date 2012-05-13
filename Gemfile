@@ -41,3 +41,4 @@ gem 'thinking-sphinx', '2.0.10'
 #wget http://sphinxsearch.com/downloads/accept.php?file=sphinx-2.0.4-release.tar.gz
 #tar zxvf accept.php\?file\=sphinx-2.0.4-release.tar.gz
 
+gem 'nokogiri'

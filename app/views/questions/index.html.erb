@@ -45,15 +45,24 @@
     </tbody>
   </table>
 </div>
-<p><%= link_to "New Question", new_question_path, :class => 'btn primary' %></p>
+
+<div class="well">
+  <div style="float:left">
+    <p><a class="btn primary" href="/questions/new">New Question</a></p>
+  </div>
+  <div style="float:right">
+    <p><a href="#" onclick="window.location = window.location + '&format=text'">Download</a></p>
+  </div>
+</div>
 
 
 
 
 
 <script type="text/javascript">
-  function tagged_questions(){
-    tags = [];
+  function tagged_questions(tags){
+    if (!tags)
+      tags = [];
 
     if ($("#question_search").val())
       tags.push("search="+$("#question_search").val());

@@ -24,8 +24,7 @@
       </table>
     </div>
 
-    <%= raw input_line_text 'title', { :object => 'statement' }%>
-    <%= raw input_tinymce 'body', { :object => 'statement' , :label => 'Statement' }  %>
+    <%= raw input_tinymce 'body', { :object => 'statement' , :label => 'Statement', :html => " autofocus='autofocus' "}  %>
     <%= raw input_attachments :object => 'statement' %>
 
     <div class="control-group">

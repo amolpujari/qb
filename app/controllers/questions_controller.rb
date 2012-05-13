@@ -2,17 +2,18 @@ class QuestionsController < ApplicationController
   skip_before_filter :authenticate_user!, :only => [:index, :show]
   
   def index
-    tags = []
-    tags << params[:complexity].to_s  unless params[:complexity].blank?
-    tags << params[:topic].to_s       unless params[:topic].blank?
-    tags << params[:search].to_s      unless params[:search].blank?
+    tags = filter_tags
 
     # http://stackoverflow.com/questions/2082399/thinking-sphinx-and-acts-as-taggable-on-plugin
 
     @questions = Question.tagged_with(tags, :match_all => false).paginate(:page => params[:page]) unless tags.blank?
 
     @questions ||= Question.paginate(:page => params[:page])
-    
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.text { send_data @questions.text_format, :filename => "#{Time.now.utc.to_s.gsub('-', '').gsub(':', '').delete(' ')}_questions_#{tags.join('_')}.txt" }
+    end
   end
 
   def show
@@ -67,5 +68,16 @@ class QuestionsController < ApplicationController
     #@question = Question.find(params[:id])
     #@question.destroy
     redirect_to questions_url, :notice => "feature inactive."
+  end
+
+  private
+
+  def filter_tags
+    tags = []
+    tags << params[:complexity].to_s  unless params[:complexity].blank?
+    tags << params[:topic].to_s       unless params[:topic].blank?
+    tags << params[:search].to_s      unless params[:search].blank?
+    tags = tags.collect{ |tag| tag.downcase }
+    tags = tags.uniq.compact
   end
 end
