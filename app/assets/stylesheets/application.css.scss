@@ -27,3 +27,43 @@
 input, textarea, select, .uneditable-input {
   width: 90%;
 }
+
+body{
+    font: 100% Verdana, Arial, Helvetica, sans-serif;
+    font-size:70%;font-weight:normal;text-decoration:none;
+    letter-spacing:0.9px;
+    line-height: 1.8em;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    width:100%;
+    color:#030303;
+    height:100%;
+}
+
+h1{
+    color: #2C3A38;
+    font-size: 16px;
+}
+
+div{word-wrap: break-word;}
+p{word-wrap: break-word;}
+span{word-wrap: break-word;}
+img{border: 0px;}
+
+inputhtml {height:100%;}
+
+a{color:#2659e1; text-decoration:none;}
+a:hover{color:#2659e1; text-decoration:underline;}
+a:visited{color:#2659e1; text-decoration:none;}
+a:active{color:#2659e1; text-decoration:none;}
+
+input {
+    font-family:Courier,Verdana, Arial, Helvetica, sans-serif; font-size:14px;
+    line-height:1.5em;
+}
+textarea {
+    font-family:Courier,Verdana, Arial, Helvetica, sans-serif; font-size:14px;
+    /*background:#FFFFFF url(/assets/inbg.jpg) repeat-x scroll left top;*/
+    line-height:1.5em;
+}

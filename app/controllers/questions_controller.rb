@@ -31,7 +31,8 @@ class QuestionsController < ApplicationController
     @question = Question.new(params[:question])
     @question.statement = @statement
     @statement.user = current_user
-    
+    @question.update_objective_options params[:objective_options]
+
     if @statement.save_attachments(params[:attachment]) and @question.save!
       redirect_to @question, :notice => "Successfully created question."
     else
@@ -48,12 +49,12 @@ class QuestionsController < ApplicationController
 
   def update
     @question = Question.find(params[:id])
-
-    question_attrs = params[:question]
-    question_attrs[:delta] = true
+    @question.assign_attributes params[:question]
+    @question.assign_attributes :delta => true
+    @question.update_objective_options params[:objective_options]
     
     @statement = @question.statement
-    if @statement.save_attachments(params[:attachment]) and @statement.update_attributes(params[:statement]) and @question.update_attributes(question_attrs)
+    if @statement.save_attachments(params[:attachment]) and @statement.update_attributes(params[:statement]) and @question.save
       redirect_to @question, :notice  => "Successfully updated question."
     else
       @question.errors[:base] << @statement.errors

@@ -16,6 +16,12 @@ gem "twitter-bootstrap-rails", ">= 2.0.3", :group => :assets
 gem "simple_form"
 gem "will_paginate", ">= 3.0.3"
 
+gem "wirble"
+gem "hirb"
+gem "rails-erd"
+gem "awesome_print", '0.4.0'
+gem "nifty-generators"
+
 gem "bootstrapped", :git => 'https://github.com/entropillc/bootstrapped.git'
 
 gem "paperclip", "~> 3.0"

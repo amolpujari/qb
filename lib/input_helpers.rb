@@ -133,5 +133,41 @@ module InputHelpers
     html << collection_select( object, input_field, items, :id, display_field, {:style => 'width:98%'}, :onchange => options[:onchange], :onkeyup => options[:onkeyup])
   end
 
+
+
+
+
+  
+  # overridden input_multiline_text
+  def input_answers(count, options = {})
+    input = 'body'
+		object = "question.objective_options[#{count}]"
+    disabled = (options[:disabled] ? "disabled" : "")
+    html  = input_answer_label(count, options[:mandatory])
+    data  = eval("@#{object}.#{input}") rescue nil
+		element_id = "#{object}_#{input}"
+		help = options[:help]? "onfocus=\"on_focus_clear_help_msg( '#{element_id}', '#{options[:help]}');\" onblur=\"on_blur_show_help_msg( '#{element_id}', '#{options[:help]}');\"" : ''
+		value = options[:value]? options[:value] : ''
+		data =  data || value
+    html << "<div id='objective_option_#{count}'><textarea style='float:left;width:90%' rows='4' #{disabled} name='objective_options[][body]' class='question_answers_statement' #{help} >#{h data}</textarea></div>"
+  end
+
+ 	def input_answer_label( count, mandatory = false)
+    checked = @question.answers[count].is_right_answer ? 'checked' : '' rescue ''
+    label = "Option #{(count+1)}"
+    return ' ' if label.length < 2
+    label = label.gsub('_',' ').camelize
+		mandatory ? label <<  "<span style=\"color: red; font-weight: bold;\">*</span>&nbsp;" : label << "<span style=\"color: red; font-weight: bold;\">&nbsp;</span>&nbsp;"
+		"<div style='width:780px;float:left;margin-top:13px;'>#{label}:</div>"#+"<div style='width:200px;float:left;'><label class='btn' data-toggle='button' name='question.answers[#{count}][is_right_answer]'>Correct One</label></div>"
+	end
+
+  def input_bold_label( label, mandatory = false)
+    return ' ' if label.length < 2
+    label = label.gsub('_',' ').camelize
+		label << asterisk if mandatory
+		"<div style=\"width:98%;margin-top:10px;\"><b>#{label}:</b></div>"
+	end
+
+
 end
 

@@ -1,7 +1,7 @@
 <h3>Questions</h3>
 
 <div class="well" style="background-color: white;">
-  
+
   <%= will_paginate @questions %>
 
   <table class="table table-striped">
@@ -21,11 +21,12 @@
         <th>Questions</th>
         <th>Complexity</th>
         <th>Topic</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       <% @questions.each do |question| %>
-        <tr onclick="window.location = '/questions/<%=question.id%>/edit';">
+        <tr>
           <td>
             <%= question.title %>
             <br/><i>by <%=question.user.email%></i>
@@ -35,6 +36,9 @@
           </td>
           <td>
             <%= question.topic %>
+          </td>
+          <td>
+            <button class="btn" onclick="window.location = '/questions/<%=question.id%>/edit';">Edit</button>
           </td>
         </tr>
       <% end %>

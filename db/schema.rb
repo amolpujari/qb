@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120424134338) do
+ActiveRecord::Schema.define(:version => 20120425135810) do
 
   create_table "attachments", :force => true do |t|
     t.integer  "attachable_id"
@@ -25,6 +25,12 @@ ActiveRecord::Schema.define(:version => 20120424134338) do
   end
 
   add_index "attachments", ["attachable_id"], :name => "index_attachments_on_attachable_id"
+
+  create_table "objective_options", :force => true do |t|
+    t.text    "body"
+    t.integer "question_id"
+    t.boolean "is_correct",  :default => false, :null => false
+  end
 
   create_table "questions", :force => true do |t|
     t.boolean  "delta",      :default => true, :null => false

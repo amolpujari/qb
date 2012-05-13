@@ -1,25 +1,44 @@
 <%= form_for @question, :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
   <fieldset>
-    <legend><%= form_action_title %> Question</legend>
+    <h3><%= form_action_title %> Question</h3>
 
-    <fieldset>
-      <%= raw errors_for @question %>
+    <%= raw errors_for @question %>
 
-      <%= raw input_line_text 'title', { :object => 'statement' }%>
-      <%= raw input_tinymce 'body', { :object => 'statement' , :label => 'Statement' }  %>
-      <%= raw input_attachments :object => 'statement' %>
+    <div class="control-group" style="width:90%;">
+      <table style="float:right;">
+        <tr>
+          <td></td>
+          <td style="width:80px;">Complexity: </td>
+          <td style="width:100px;">
+            <%= select("question", "complexity_list", Question::Complexities.collect{|val| [val, val]}) %>
+          </td>
+        </tr>
 
-      <div class="control-group">
-        <div class="controls">
-          <%= select("question", "complexity_list", Question::Complexities.collect{|val| [val, val]}) %>
-        </div>
+        <tr>
+          <td></td>
+          <td>Topic: </td>
+          <td>
+            <%= select("question", "topic_list", Question::Topics.collect{|val| [val, val]}) %>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <%= raw input_line_text 'title', { :object => 'statement' }%>
+    <%= raw input_tinymce 'body', { :object => 'statement' , :label => 'Statement' }  %>
+    <%= raw input_attachments :object => 'statement' %>
+
+    <div class="control-group">
+      <div class="controls">
+        This question of type <%= select("question", "nature_list", Question::Natures.collect{|val| [val, val]}, {}, :onchange => 'nature_changed(this.value);') %>
       </div>
+    </div>
 
-      <div class="control-group">
-        <div class="controls">
-          <%= select("question", "topic_list", Question::Topics.collect{|val| [val, val]}) %>
-        </div>
+    <div class="control-group" id="objective_options" style="display:none;">
+      <div class="controls">
+        <%= render :partial => 'objective' %>
       </div>
+    </div>
 
   </fieldset>
 
@@ -27,6 +46,21 @@
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to 'Cancel', questions_path, :class => 'btn' %>
   </div>
-</fieldset>
 
 <% end %>
+
+
+
+
+<script type="text/javascript">
+  function nature_changed(nature){
+    if (nature=='Objective'){
+      //$("#objective_options").show();
+      $("#objective_options").effect('highlight',null,'slow');
+    }
+    else{
+      $("#objective_options").effect('fade',null,'slow');
+    }
+  }
+  nature_changed($('#question_nature_list').val());
+</script>
