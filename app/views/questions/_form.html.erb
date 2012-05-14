@@ -1,6 +1,5 @@
 <%= form_for @question, :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
   <fieldset>
-    <h3><%= form_action_title %> Question</h3>
 
     <%= raw errors_for @question %>
 
@@ -24,7 +23,13 @@
       </table>
     </div>
 
-    <%= raw input_tinymce 'body', { :object => 'statement' , :label => 'Statement', :html => " autofocus='autofocus' "}  %>
+    <div class="control-group">
+      <div class="controls">
+        <h4><%= form_action_title %> Question</h4>
+      </div>
+    </div>
+
+    <%= raw input_tinymce 'body', { :object => 'statement' , :label => '', :html => " autofocus='autofocus' "}  %>
     <%= raw input_attachments :object => 'statement' %>
 
     <div class="control-group">

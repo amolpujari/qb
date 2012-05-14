@@ -77,7 +77,8 @@ module InputHelpers
     data  = eval("@#{object}.#{input}") #rescue nil
     element_name = "#{object}_#{input}"
     html << "<div class=\"control-group\"><div class=\"controls\" >#{label_html}<textarea  style=\"width:91%;\"  class=\"tinymce\" rows='#{rows}' #{disabled} name='#{object}[#{input}]' id='#{element_name}' #{options[:html]} >#{data}</textarea></div></div>"
-    html << tinymce #render(:partial => 'shared/richtext_editor', :locals => {:element_name => element_name })
+    #html << tinymce
+    html << render(:partial => 'layouts/tinymce', :locals => {:element_name => element_name })
   end
 
   def input_attachments(options = {})
