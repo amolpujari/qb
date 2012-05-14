@@ -70,6 +70,18 @@ class QuestionsController < ApplicationController
     redirect_to questions_url, :notice => "feature inactive."
   end
 
+  include ImportQuestions
+  def import
+    if request.post
+      if questions_uploaded_successfuly_from params[:questions_file]
+        @questions = Question.find(:all, :order => ' created_at desc ', :limit => @successfuly_upload_questions.size)
+        render :index, :notice => 'Questions uploaded!'
+      else
+        render :index, :notice => "Questions upload failed: #{@upload_error}"
+      end
+    end
+  end
+
   private
 
   def filter_tags

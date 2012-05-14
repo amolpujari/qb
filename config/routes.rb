@@ -1,5 +1,6 @@
 Qb::Application.routes.draw do
   resources :questions
+  match 'questions/import' => 'questions#import'
 
   delete '/attachments/:id' => 'attachments#delete'
 

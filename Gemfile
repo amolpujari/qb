@@ -42,3 +42,5 @@ gem 'thinking-sphinx', '2.0.10'
 #tar zxvf accept.php\?file\=sphinx-2.0.4-release.tar.gz
 
 gem 'nokogiri'
+gem 'spreadsheet'
+
