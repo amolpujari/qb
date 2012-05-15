@@ -81,12 +81,12 @@ module ImportQuestions
   end
 
   def header_checks_ok? columns
-    if columns.size < 11
-      @upload_error = '11 header columns expected'
+    if columns.size < 10
+      @upload_error = '10 header columns expected'
       return false
     end
 
-    expected_headers = ['No.','Subject','Topic','Difficulty Level','Question','A','B','C','D','E','Correct Answers']
+    expected_headers = ['No.', 'Topic', 'Complexity Level', 'Question','A','B','C','D','E','Correct Answers']
 
     expected_headers.each_with_index do |expected_header, index|
       if not ( columns[index].casecmp(expected_header) == 0)
@@ -98,28 +98,23 @@ module ImportQuestions
   end
 
   def process_question(columns)
-    row_count = columns[0].to_i rescue nil
+    row_count = columns[0].to_i
     return unless row_count
 
-    if columns[1].nil? or (columns[1].to_s.strip.size < 1)
-      @failed_upload_questions << { :number => row_count, :reason => 'Invalid subject'}
-      return
-    end
-    subject = Subject.find_or_create(:name => columns[1].to_s)
-
-    if columns[2].nil? or (columns[2].to_s.strip.size < 1)
+    topic = columns[1].to_s
+    unless Question::Topics.include? topic
       @failed_upload_questions <<  { :number => row_count, :reason => 'Invalid topic'}
       return
     end
-    topic = Topic.find_or_create(:name => columns[2].to_s, :subject_id => subject.id)
 
-    question_category = QuestionCategory.find_by_name columns[3] rescue nil
-    if not question_category
-      @failed_upload_questions << { :number => row_count, :reason => 'Invalid difficulty level'}
+    complexity = columns[2].to_s
+    unless Question::Complexities.include? complexity
+      @failed_upload_questions << { :number => row_count, :reason => 'Invalid complexity level'}
       return
     end
 
-    if columns[4].nil? or (columns[4].to_s.strip.size < 4)
+    statement = columns[3]
+    if statement.nil? or (statement.to_s.strip.size < 4)
       @failed_upload_questions << { :number => row_count, :reason => 'Invalid question statement'}
       return
     end
@@ -127,8 +122,8 @@ module ImportQuestions
     answers_statements = []
     expected_right_answer = ['A', 'B', 'C', 'D', 'E']
     available_answers = []
-    5.upto(9) do |index|
-      if not columns[index].nil?
+    4.upto(8) do |index|
+      unless columns[index].nil?
         if columns[index].to_s.strip.size > 0
           answers_statements << columns[index]
           available_answers << expected_right_answer.at( index-5)
@@ -141,13 +136,13 @@ module ImportQuestions
       return
     end
 
-    if columns[10].to_s.strip.size < 1
+    if columns[9].to_s.strip.size < 1
       @failed_upload_questions <<  { :number => row_count, :reason => 'Correct answer missing'}
       return
     end
 
-    correct_answers = columns[10].to_s.upcase.split(',').to_set
-    if not correct_answers.subset?(available_answers.to_set)
+    correct_answers = columns[9].to_s.upcase.split(',').to_set
+    unless correct_answers.subset?(available_answers.to_set)
       @failed_upload_questions << { :number => row_count, :reason => 'Invalid correct answer'}
       return
     end
