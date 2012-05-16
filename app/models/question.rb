@@ -82,9 +82,31 @@ class Question < ActiveRecord::Base
         existing.destroy
       end
     end
-    
+
     options.each do |new_one|
       self.objective_options.create new_one
+    end
+  end
+
+  def assign_objective_options options
+    return self.objective_options.destroy unless options
+
+    options.reverse!
+
+    self.objective_options.each do |existing|
+      updated_one = options.pop
+
+      if updated_one
+        existing.body       = updated_one[:body]
+        existing.is_correct = updated_one[:is_correct]
+        #existing.save
+      else
+        existing.destroy
+      end
+    end
+
+    options.each do |new_one|
+      self.objective_options.new new_one
     end
   end
 

@@ -32,7 +32,7 @@ class QuestionsController < ApplicationController
     @question = Question.new(params[:question])
     @question.statement = @statement
     @statement.user = current_user
-    @question.update_objective_options params[:objective_options]
+    @question.assign_objective_options params[:objective_options]
 
     if @statement.save_attachments(params[:attachment]) and @question.save!
       redirect_to @question, :notice => "Successfully created question."

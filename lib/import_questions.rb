@@ -7,39 +7,39 @@ module ImportQuestions
   
   def questions_uploaded_successfuly_from file
     @upload_questions_submitter_id = current_user.id
-    @upload_questions_moderator_id = nil
-    @upload_questions_status = 'moderated'
+    #@upload_questions_moderator_id = nil
+    #@upload_questions_status = 'moderated'
 
     if file.blank?
       @upload_error = 'Invalid file'
-      return false
+      return
     end
     
     if not (File.extname(file.original_filename).eql? '.xls')
       @upload_error = 'Invalid file'
-      return false
+      return
     end
 
     file_path = save_file_on_disk file
 
     if File.size(file_path) < MIN_SIZE
       @upload_error = 'Blank file'
-      File.delete file_path rescue nil
-      return false
+      File.delete file_path
+      return
     end
 
     if File.size(file_path) > MAX_SIZE
       @upload_error = 'File size too large, allowed upto 10 MB only'
-      File.delete file_path rescue nil
-      return false
+      File.delete file_path
+      return
     end
     
     if not process_questions_xls file_path
-      File.delete file_path rescue nil
-      return false
+      File.delete file_path
+      return
     end
     
-    File.delete file_path rescue nil
+    File.delete file_path
     true
   end
 
@@ -53,7 +53,7 @@ module ImportQuestions
       File.open(file_path, "wb") { |disk_file| disk_file.write( file.read)}
     rescue
       @upload_error = 'Could not write on disk'
-      return nil
+      return
     end
     file_path
   end
@@ -68,12 +68,12 @@ module ImportQuestions
     rescue Exception => e
       @upload_error = e.message
       puts "upload error: #{@upload_error}"
-      return nil
+      return
     end
 
     first_sheet.each_with_index do | columns, row|
       if row == 0
-        return nil if not header_checks_ok? columns
+        return if not header_checks_ok? columns
       else
         process_question columns
       end
@@ -83,7 +83,7 @@ module ImportQuestions
   def header_checks_ok? columns
     if columns.size < 10
       @upload_error = '10 header columns expected'
-      return false
+      return
     end
 
     expected_headers = ['No.', 'Topic', 'Complexity Level', 'Question','A','B','C','D','E','Correct Answers']
@@ -91,7 +91,7 @@ module ImportQuestions
     expected_headers.each_with_index do |expected_header, index|
       if not ( columns[index].casecmp(expected_header) == 0)
         @upload_error = "Invalid column \"#{columns[index]}\", expected \"#{expected_header}\""
-        return false
+        return
       end
     end
     true
@@ -113,7 +113,7 @@ module ImportQuestions
       return
     end
 
-    statement = columns[3]
+    statement_body = columns[3].to_s
     if statement.nil? or (statement.to_s.strip.size < 4)
       @failed_upload_questions << { :number => row_count, :reason => 'Invalid question statement'}
       return
@@ -147,14 +147,17 @@ module ImportQuestions
       return
     end
 
-    question = Question.new(:statement => columns[4].to_s,
-      :question_category_id => question_category.id,
-      :subject_id => subject.id,
-      :topic_id => topic.id,
-      :submitter_id => @upload_questions_submitter_id,
-      :moderator_id => @upload_questions_moderator_id,
-      :status => @upload_questions_status
-    )
+    objective_options = []
+    answers_statements.each do |answer_option|
+      objective_options << { :body => answer_option}
+    end
+
+    question = Question.new :complexity_list => complexity, :topic_list => topic, :nature_list => 'Objective'
+    question.statement = Statement.build :body => statement_body
+    question.user_id = @upload_questions_submitter_id
+    @question.assign_objective_options objective_options
+
+    
 
     0.upto(answers_statements.size - 1) do |index|
       answer = question.answers.build
