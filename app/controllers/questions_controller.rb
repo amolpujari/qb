@@ -7,7 +7,6 @@ class QuestionsController < ApplicationController
     # http://stackoverflow.com/questions/2082399/thinking-sphinx-and-acts-as-taggable-on-plugin
 
     @questions = Question.tagged_with(tags, :match_all => false).paginate(:page => params[:page]) unless tags.blank?
-
     @questions ||= Question.paginate(:page => params[:page])
 
     respond_to do |format|
@@ -70,14 +69,17 @@ class QuestionsController < ApplicationController
     redirect_to questions_url, :notice => "feature inactive."
   end
 
-  include ImportQuestions
+  include Importer
   def import
-    if request.post
+    if request.post?
       if questions_uploaded_successfuly_from params[:questions_file]
         @questions = Question.find(:all, :order => ' created_at desc ', :limit => @successfuly_upload_questions.size)
         render :index, :notice => 'Questions uploaded!'
       else
-        render :index, :notice => "Questions upload failed: #{@upload_error}"
+        @questions = Question.paginate(:page => params[:page])
+        puts "----------------------------Questions upload failed: #{@upload_error}"
+        flash[:error] = "Questions upload failed: #{@upload_error}"
+        render :index
       end
     end
   end

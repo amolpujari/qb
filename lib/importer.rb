@@ -1,7 +1,7 @@
 include Spreadsheet
 require 'set'
 
-module ImportQuestions
+module Importer
   MIN_SIZE = 7168          #7Kb
   MAX_SIZE = 10485760      #10Mb
   
@@ -9,18 +9,20 @@ module ImportQuestions
     @upload_questions_submitter_id = current_user.id
     #@upload_questions_moderator_id = nil
     #@upload_questions_status = 'moderated'
+    puts '--------------------------------------'
 
     if file.blank?
-      @upload_error = 'Invalid file'
+      @upload_error = 'Blank file'
       return
     end
     
-    unless (File.extname(file.original_filename).eql? '.xls')
+    unless (File.extname(file.original_filename).eql? '.xlsx')
       @upload_error = 'Invalid file'
       return
     end
 
     file_path = save_file_on_disk file
+    return unless file_path
 
     if File.size(file_path) < MIN_SIZE
       @upload_error = 'Blank file'
@@ -47,7 +49,7 @@ module ImportQuestions
 
   def save_file_on_disk(file)
     begin
-      input_path = Rails.root.join("public/questions_upload/").to_s
+      input_path = Rails.root.join("tmp/imported_questions_files/").to_s
       filename = Time.now.strftime("%Y%m%d%H%M%S") + '_' + file.original_filename.gsub(' ','_')
       file_path = input_path + filename
       File.open(file_path, "wb") { |disk_file| disk_file.write( file.read)}
@@ -66,8 +68,8 @@ module ImportQuestions
       xls = Spreadsheet.open file_path
       first_sheet = xls.worksheet 0
     rescue Exception => e
-      @upload_error = e.message
-      puts "upload error: #{@upload_error}"
+      @upload_error = 'Does not seem to be a valid xls.'
+      puts "  upload error: #{e.message}"
       return
     end
 

@@ -2,6 +2,12 @@
 
 <div class="well" style="background-color: white;">
 
+  <div class="well">
+    <div style="float:left">
+      <p><a class="btn btn-primary" href="/questions/new">Add New Question</a></p>
+    </div>
+  </div>
+
   <%= will_paginate @questions %>
 
   <table class="table table-striped">
@@ -52,15 +58,21 @@
   </div>
 
   <div style="float:right">
-    <p><a href="#" onclick="window.location = window.location + '&format=text'">Download</a></p>
+    <p>
+      Download
+      <a href="#" onclick="window.location = window.location + '.text'">TXT</a>
+      | <a href="#" onclick="window.location = window.location + '.csv'">CSV</a>
+    </p>
   </div>
 </div>
 
+
 <div class="well">
   <!-- question upload starts -->
+  <%= raw render_upload_status %>
   <span id="upload_form_container">Import questions <a href="#"> e.g. template.xls</a>
     <%= form_tag '/questions/import', :multipart => true, :onsubmit => 'upload_started();' do %>
-      <%= file_field_tag 'upload' %>
+      <%= file_field_tag :questions_file %>
       <%= submit_tag 'Upload', :class => 'btn btn-primary', :style => 'margin-bottom:10px;' %>
     <% end %>
   </span>
@@ -86,9 +98,6 @@
   </script>
   <!-- question upload ends -->
 </div>
-
-
-
 
 
 <script type="text/javascript">
