@@ -15,7 +15,7 @@ module ImportQuestions
       return
     end
     
-    if not (File.extname(file.original_filename).eql? '.xls')
+    unless (File.extname(file.original_filename).eql? '.xls')
       @upload_error = 'Invalid file'
       return
     end
@@ -34,7 +34,7 @@ module ImportQuestions
       return
     end
     
-    if not process_questions_xls file_path
+    unless process_questions_xls file_path
       File.delete file_path
       return
     end
@@ -73,7 +73,7 @@ module ImportQuestions
 
     first_sheet.each_with_index do | columns, row|
       if row == 0
-        return if not header_checks_ok? columns
+        return unless header_checks_ok? columns
       else
         process_question columns
       end
@@ -89,11 +89,12 @@ module ImportQuestions
     expected_headers = ['No.', 'Topic', 'Complexity Level', 'Question','A','B','C','D','E','Correct Answers']
 
     expected_headers.each_with_index do |expected_header, index|
-      if not ( columns[index].casecmp(expected_header) == 0)
+      unless ( columns[index].casecmp(expected_header) == 0)
         @upload_error = "Invalid column \"#{columns[index]}\", expected \"#{expected_header}\""
         return
       end
     end
+    
     true
   end
 
@@ -148,32 +149,27 @@ module ImportQuestions
     end
 
     objective_options = []
-    answers_statements.each do |answer_option|
-      objective_options << { :body => answer_option}
+    answers_statements.each_with_index do |answer_option, index|
+
+      if (answer_option.class == Spreadsheet::Formula)
+        body = (answer_option.value == true) ? 'true' : 'false'
+      elsif (answer_option.class == TrueClass)
+        body = 'true'
+      elsif (answer_option.class == FalseClass)
+        body = 'false'
+      else
+        body = answer_option
+      end
+
+      is_correct = correct_answers.include? available_answers[index]
+
+      objective_options << { :body => body, :is_correct => is_correct}
     end
 
     question = Question.new :complexity_list => complexity, :topic_list => topic, :nature_list => 'Objective'
     question.statement = Statement.build :body => statement_body
     question.user_id = @upload_questions_submitter_id
     @question.assign_objective_options objective_options
-
-    
-
-    0.upto(answers_statements.size - 1) do |index|
-      answer = question.answers.build
-      statement = answers_statements[index]
-      # code for displaying values of true and false as it is.
-      if (statement.class == Spreadsheet::Formula)
-        answer.statement = (statement.value == true) ? 'true' : 'false'
-      elsif (statement.class == TrueClass)
-        answer.statement = 'true'
-      elsif (statement.class == FalseClass)
-        answer.statement = 'false'
-      else
-        answer.statement = statement
-      end
-      answer.is_right_answer = correct_answers.include?(available_answers[index])? true : false
-    end
 
     if question.save
       @successfuly_upload_questions << row_count
