@@ -21,11 +21,17 @@ class Question < ActiveRecord::Base
 
   acts_as_taggable_on :complexities
   attr_accessible :complexity_list
-  Complexities = ['Easy', 'Medium', 'Hard', 'Very Hard',]
+
+  def self.complexities
+    self.top_complexities self.complexity_counts.size
+  end
 
   acts_as_taggable_on :topics
   attr_accessible :topic_list
-  Topics = ['Java', 'dot Net', 'c sharp', 'Ruby', 'Databases',]
+
+  def self.topics
+    self.top_topics self.topic_counts.size
+  end
 
   acts_as_taggable_on :natures
   attr_accessible :nature_list

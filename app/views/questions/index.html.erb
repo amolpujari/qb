@@ -2,25 +2,22 @@
 
 <div class="well" style="background-color: white;">
 
-  <div class="well">
-    <div style="float:left">
-      <p><a class="btn btn-primary" href="/questions/new">Add New Question</a></p>
-    </div>
-  </div>
-
-  <%= will_paginate @questions %>
+  <%= will_paginate @questions rescue nil%>
 
   <table class="table table-striped">
     <thead>
       <tr>
-        <th style="width:40%;">
+        <th style="width:70%;">
           <input id="question_search" type="text" value="<%= params[:search] %>" onkeyup="if(check_for_enter_pressed(event)) tagged_questions();" autofocus="autofocus"/>
         </th>
         <th>
-          <%= select("question", "complexity_list", Question::Complexities.collect{|val| [val, val]}, {:prompt => 'Any', :selected => params[:complexity]}, :onchange => 'tagged_questions();') %>
+          <%= select("question", "complexity_list", Question.complexities.collect{|complexity| [complexity.name, complexity.name]}, {:prompt => 'Any', :selected => params[:complexity]}, :onchange => 'tagged_questions();', :style => 'width:100px;') %>
         </th>
         <th>
-          <%= select("question", "topic_list", Question::Topics.collect{|val| [val, val]}, {:prompt => 'Any', :selected => params[:topic]}, :onchange => 'tagged_questions();') %>
+          <%= select("question", "topic_list", Question.topics.collect{|topic| [topic.name, topic.name]}, {:prompt => 'Any', :selected => params[:topic]}, :onchange => 'tagged_questions();', :style => 'width:100px;') %>
+        </th>
+        <th>
+          <p><a class="btn btn-primary" href="/questions/new">Add</a></p>
         </th>
       </tr>
       <tr>
@@ -35,7 +32,7 @@
         <tr>
           <td>
             <%= question.title %>
-            <br/><i>by <%=question.user.email%></i>
+            <br/><i style="color:#aaa;"> by <%=question.user.email%></i>
           </td>
           <td>
             <%= question.complexity %>
@@ -54,50 +51,46 @@
 
 <div class="well">
   <div style="float:left">
-    <p><a class="btn btn-primary" href="/questions/new">Add New Question</a></p>
+    <!-- question upload starts -->
+    <%= raw render_upload_status %>
+    <span id="upload_form_container">Import questions <a href="#"> e.g. template.xls</a>
+      <%= form_tag '/questions/import', :multipart => true, :onsubmit => 'upload_started();' do %>
+        <%= file_field_tag :questions_file %>
+        <%= submit_tag 'Upload', :class => 'btn btn-primary', :style => 'margin-bottom:10px;' %>
+      <% end %>
+    </span>
+    <span id="uploading" style="display: none;">
+      Uploading.....     please wait.
+    </span>
+
+    <script type="text/javascript">
+      $('#upload_form_container').popover({
+        content:  "<br/>1. Only .xls file is allowed \
+                   <br/>2. Upto 10 MB allowed \
+                   <br/>3. Please find the template for upload <a href=\"/assets/questions_imported/questions_import_template.xls\">here</a> \
+                   <br/>4. Formulas and functions (for.e.g \"=sum(A1,A2)\", \"=concat(A1,A2)\") are not allowed "
+      });
+
+
+      function upload_started(){
+        $('upload_form_container').style.display = 'none';
+        $('uploading').style.display = 'block';
+        show_spinner('spinner');
+        return true;
+      }
+    </script>
+    <!-- question upload ends -->
   </div>
 
   <div style="float:right">
     <p>
       Download
-      <a href="#" onclick="window.location = window.location + '.text'">TXT</a>
-      | <a href="#" onclick="window.location = window.location + '.csv'">CSV</a>
+      <a href="#" onclick="window.location = window.location + '?format=text'">TXT</a>
+      | <a href="#" onclick="window.location = window.location + '?format=csv'">CSV</a>
     </p>
   </div>
 </div>
 
-
-<div class="well">
-  <!-- question upload starts -->
-  <%= raw render_upload_status %>
-  <span id="upload_form_container">Import questions <a href="#"> e.g. template.xls</a>
-    <%= form_tag '/questions/import', :multipart => true, :onsubmit => 'upload_started();' do %>
-      <%= file_field_tag :questions_file %>
-      <%= submit_tag 'Upload', :class => 'btn btn-primary', :style => 'margin-bottom:10px;' %>
-    <% end %>
-  </span>
-  <span id="uploading" style="display: none;">
-    Uploading.....     please wait.
-  </span>
-
-  <script type="text/javascript">
-    $('#upload_form_container').popover({
-      content:  "<br/>1. Only .xls file is allowed \
-                 <br/>2. Upto 10 MB allowed \
-                 <br/>3. Please find the template for upload <a href=\"/assets/questions_imported/questions_import_template.xls\">here</a> \
-                 <br/>4. Formulas and functions (for.e.g \"=sum(A1,A2)\", \"=concat(A1,A2)\") are not allowed "
-    });
-
-
-    function upload_started(){
-      $('upload_form_container').style.display = 'none';
-      $('uploading').style.display = 'block';
-      show_spinner('spinner');
-      return true;
-    }
-  </script>
-  <!-- question upload ends -->
-</div>
 
 
 <script type="text/javascript">

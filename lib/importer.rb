@@ -1,15 +1,12 @@
-include Spreadsheet
-require 'set'
+require 'rubyXL'
 
 module Importer
   MIN_SIZE = 7168          #7Kb
   MAX_SIZE = 10485760      #10Mb
   
   def questions_uploaded_successfuly_from file
-    @upload_questions_submitter_id = current_user.id
     #@upload_questions_moderator_id = nil
     #@upload_questions_status = 'moderated'
-    puts '--------------------------------------'
 
     if file.blank?
       @upload_error = 'Blank file'
@@ -65,20 +62,18 @@ module Importer
     @successfuly_upload_questions = []
     
     begin
-      xls = Spreadsheet.open file_path
-      first_sheet = xls.worksheet 0
+      xlsx = RubyXL::Parser.parse file_path
+      first_sheet = xlsx[0].extract_data
     rescue Exception => e
-      @upload_error = 'Does not seem to be a valid xls.'
+      @upload_error = 'Does not seem to be a valid xlsx.'
       puts "  upload error: #{e.message}"
       return
     end
 
-    first_sheet.each_with_index do | columns, row|
-      if row == 0
-        return unless header_checks_ok? columns
-      else
-        process_question columns
-      end
+    return unless header_checks_ok? first_sheet[0]
+
+    first_sheet[1..-1].each do | row|
+      process_question row
     end
   end
 
@@ -88,7 +83,7 @@ module Importer
       return
     end
 
-    expected_headers = ['No.', 'Topic', 'Complexity Level', 'Question','A','B','C','D','E','Correct Answers']
+    expected_headers = ['S. No.', 'Topic', 'Complexity Level', 'Question','Answer A','Answer B','Answer C','Answer D','Answer E','Correct Answer']
 
     expected_headers.each_with_index do |expected_header, index|
       unless ( columns[index].casecmp(expected_header) == 0)
@@ -103,21 +98,32 @@ module Importer
   def process_question(columns)
     row_count = columns[0].to_i
     return unless row_count
+    return if row_count < 1
 
-    topic = columns[1].to_s
-    unless Question::Topics.include? topic
+    topic = columns[1].to_s.strip
+    if topic.length < 2
       @failed_upload_questions <<  { :number => row_count, :reason => 'Invalid topic'}
       return
     end
 
-    complexity = columns[2].to_s
-    unless Question::Complexities.include? complexity
-      @failed_upload_questions << { :number => row_count, :reason => 'Invalid complexity level'}
+    #    unless Question::Topics.include? topic
+    #      @failed_upload_questions <<  { :number => row_count, :reason => 'Invalid topic'}
+    #      return
+    #    end
+
+    complexity = columns[2].to_s.strip
+    if complexity.length < 2
+      @failed_upload_questions <<  { :number => row_count, :reason => 'Invalid topic'}
       return
     end
-
+    
+    #    unless Question::Complexities.include? complexity
+    #      @failed_upload_questions << { :number => row_count, :reason => 'Invalid complexity level'}
+    #      return
+    #    end
+    
     statement_body = columns[3].to_s
-    if statement.nil? or (statement.to_s.strip.size < 4)
+    if statement_body.nil? or (statement_body.to_s.strip.size < 4)
       @failed_upload_questions << { :number => row_count, :reason => 'Invalid question statement'}
       return
     end
@@ -153,15 +159,16 @@ module Importer
     objective_options = []
     answers_statements.each_with_index do |answer_option, index|
 
-      if (answer_option.class == Spreadsheet::Formula)
-        body = (answer_option.value == true) ? 'true' : 'false'
-      elsif (answer_option.class == TrueClass)
-        body = 'true'
-      elsif (answer_option.class == FalseClass)
-        body = 'false'
-      else
-        body = answer_option
-      end
+      #      if (answer_option.class == Spreadsheet::Formula)
+      #        body = (answer_option.value == true) ? 'true' : 'false'
+      #      elsif (answer_option.class == TrueClass)
+      #        body = 'true'
+      #      elsif (answer_option.class == FalseClass)
+      #        body = 'false'
+      #      else
+      #        body = answer_option
+      #      end
+      body = answer_option
 
       is_correct = correct_answers.include? available_answers[index]
 
@@ -169,9 +176,9 @@ module Importer
     end
 
     question = Question.new :complexity_list => complexity, :topic_list => topic, :nature_list => 'Objective'
-    question.statement = Statement.build :body => statement_body
-    question.user_id = @upload_questions_submitter_id
-    @question.assign_objective_options objective_options
+    question.statement = Statement.new :body => statement_body
+    question.statement.user = current_user
+    question.assign_objective_options objective_options
 
     if question.save
       @successfuly_upload_questions << row_count

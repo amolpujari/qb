@@ -3,34 +3,43 @@
 
     <%= raw errors_for @question %>
 
-    <div class="control-group" style="width:90%;">
-      <table style="float:right;">
-        <tr>
-          <td></td>
-          <td style="width:80px;">Complexity: </td>
-          <td style="width:100px;">
-            <%= select("question", "complexity_list", Question::Complexities.collect{|val| [val, val]}) %>
-          </td>
-        </tr>
-
-        <tr>
-          <td></td>
-          <td>Topic: </td>
-          <td>
-            <%= select("question", "topic_list", Question::Topics.collect{|val| [val, val]}) %>
-          </td>
-        </tr>
-      </table>
-    </div>
-
     <div class="control-group">
       <div class="controls">
         <h4><%= form_action_title %> Question</h4>
       </div>
     </div>
+    <br/>
 
-    <%= raw input_tinymce 'body', { :object => 'statement' , :label => '', :html => " autofocus='autofocus' "}  %>
-    <%= raw input_attachments :object => 'statement' %>
+    <%= raw input_multiline_text 'body', { :object => 'statement' , :label => '', :html => " autofocus='autofocus' height='300px'"}  %>
+
+    <div class="control-group">
+      <table >
+        <tr>
+          <td style="width:770px;">
+            <%= raw input_attachments :object => 'statement' %>
+          </td>
+          <td valign="top">
+            <div class="control-group">
+              <table style="float:right;">
+                <tr>
+                  <td>Complexity: </td>
+                  <td>
+                    <%= select("question", "complexity_list", Question.complexities.collect{|complexity| [complexity.name, complexity.name]}) %>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Topic: </td>
+                  <td>
+                    <%= select("question", "topic_list", Question.topics.collect{|topic| [topic.name, topic.name]}) %>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
 
     <div class="control-group">
       <div class="controls">
