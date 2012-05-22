@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="/assets/cm/theme/eclipse.css" />
+<link rel="stylesheet" href="/assets/cm/codemirror.css" />
+<script type="text/javascript" src="/assets/cm/codemirror.js"></script>
+<script  type="text/javascript" src="/assets/cm/mode/clike/clike.js"></script>
+<script  type="text/javascript" >
+  var editor = CodeMirror.fromTextArea(document.getElementById("statement_body"), {
+    lineNumbers: true,
+    matchBrackets: true,
+    mode: "text/x-csrc",
+    theme: 'eclipse'
+  });
+</script>
+

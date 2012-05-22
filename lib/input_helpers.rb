@@ -64,7 +64,7 @@ module InputHelpers
 		help = options[:help]? "onfocus=\"on_focus_clear_help_msg( '#{element_id}', '#{options[:help]}');\" onblur=\"on_blur_show_help_msg( '#{element_id}', '#{options[:help]}');\"" : ''
 		value = options[:value]? options[:value] : ''
 		data =  data || value
-    html << "<div class=\"control-group\"><div class=\"controls\" >#{label_html}<textarea  style=\"width:90%;\"  rows='#{rows}' #{disabled} name='#{object}[#{input}]' id='#{object}_#{input}' #{help} >#{data}</textarea></div></div>"
+    html << "<div class=\"control-group\"><div class=\"controls\"  style=\"width:78%;\" >#{label_html}<textarea rows='#{rows}' #{disabled} name='#{object}[#{input}]' id='#{object}_#{input}' #{help} >#{data}</textarea></div></div>"
   end
 
   def input_tinymce(input, options = {})

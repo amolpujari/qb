@@ -8,9 +8,9 @@
         <h4><%= form_action_title %> Question</h4>
       </div>
     </div>
-    <br/>
 
     <%= raw input_multiline_text 'body', { :object => 'statement' , :label => '', :html => " autofocus='autofocus' height='300px'"}  %>
+    <%= render :partial => 'layouts/code_mirrors' %>
 
     <div class="control-group">
       <table >
