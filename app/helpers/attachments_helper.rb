@@ -133,7 +133,7 @@ module AttachmentsHelper
 
   def upload_option( attachment_count, display = 'block')
     html = "<div id=\"additional_upload_#{attachment_count}\" class='line' style=\"display:#{display}\">"    
-    html << "<li><label for=\"attachment\">Upload Photo</label>"
+    html << "<li>"
     html << "<input id=\"input_file_#{attachment_count}\" type=\"file\" name=\"attachment[]\"  accept=\"image, application/pdf, application/msword, text/plain\" />"
     html << "</li>"
     html << "</div>"

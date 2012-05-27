@@ -42,6 +42,10 @@ textarea {
   font-family:Courier,Verdana, Arial, Helvetica, sans-serif; font-size:14px;
   /*background:#FFFFFF url(/assets/inbg.jpg) repeat-x scroll left top;*/
   line-height:1.5em;
+  width:auto;
+  color:#333;
+  text-shadow: 0.03em 0.03em 0.10em #aaa;
+  font-size: 15px;
 }
 
 .module {
@@ -51,4 +55,16 @@ textarea {
   box-shadow: 0 0 5px #CCCCCC;
   margin-bottom: 30px;
   overflow: hidden;
+  padding:20px;
+}
+.span12{
+  width:1127px;
+}
+
+.input-append .add-on, .input-append .btn {
+  margin-left: -5px;
+}
+
+input, textarea, select, .uneditable-input {
+  margin-bottom: 0;
 }

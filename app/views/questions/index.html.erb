@@ -17,7 +17,7 @@
           <%= select("question", "topic_list", Question.topics.collect{|topic| [topic.name, topic.name]}, {:prompt => 'Any', :selected => params[:topic]}, :onchange => 'tagged_questions();', :style => 'width:100px;') %>
         </th>
         <th>
-          <p><a class="btn btn-primary" href="/questions/new">Add</a></p>
+          <a class="btn btn-primary" href="/questions/new">Add</a>
         </th>
       </tr>
       <tr>
@@ -49,7 +49,7 @@
   </table>
 </div>
 
-<div class="well">
+<div class="well" style="min-height:40px;">
   <div style="float:left">
     <!-- question upload starts -->
     <%= raw render_upload_status %>
@@ -82,7 +82,7 @@
     <!-- question upload ends -->
   </div>
 
-  <div style="float:right">
+  <div style="float:right;padding-top:30px;">
     <p>
       Download
       <a href="#" onclick="window.location = window.location + '?format=text'">TXT</a>

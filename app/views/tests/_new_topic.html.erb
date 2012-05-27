@@ -1,0 +1,49 @@
+<% @test_topic ||= TestTopic.new %>
+
+<tr id="topic_count_js_counter">
+  <td>
+    <%= collection_select( 'test_topic', 'topic',
+      Question.topics, :name, 'name', {:prompt => true},
+      :style    => 'width:190px;',
+      :name     => 'test_topics[][topic]',
+      :id       => 'topic_js_counter',
+      :class    => 'topic_identifier',
+      :onchange => "check_duplicate_topic_and_question(js_counter);") -%>
+    <!-- select tag with onkeyup event handled  -->
+<%#*:onkeyup => "if(isArrowKeyPressed(event)){check_duplicate_topic_and_question(js_counter);}") -%>
+  </td>
+  <td>
+    <%= collection_select( 'test_topic', 'complexity',
+      Question.complexities, :name, 'name', {:prompt => true},
+      :style    => 'width:179px;',
+      :name     => 'test_topics[][complexity]',
+      :id       => 'complexity_js_counter',
+      :class    => 'complexity_identifier',
+      :onchange => "check_duplicate_topic_and_question(js_counter);") -%>
+  </td>
+  <td>
+    <%= collection_select( 'test_topic', 'nature',
+      Question.natures, :name, 'name', {:prompt => true},
+      :style    => 'width:179px;',
+      :name     => 'test_topics[][nature]',
+      :id       => 'nature_js_counter',
+      :class    => 'nature_identifier',
+      :onchange => "check_duplicate_topic_and_question(js_counter);") -%>
+  </td>
+  <td style="text-align: center;vertical-align: middle;">
+    <span id="available_questions_js_counter">0</span>
+  </td>
+  <td style="text-align: center;vertical-align: middle;">
+    <span id="selected_questions_js_counter">0</span>
+  </td>
+  <td>
+    <%= raw input_marks_for_each_question %>
+  </td>
+  <td style="text-align: center;vertical-align: middle;">
+    <span class="total_marks_identifier" id="total_marks_js_counter">0</span>
+  </td>
+  <td>
+    <a href="#" onclick="remove_topic(js_counter);"><img src="/assests/delete.png" alt="Delete" /></a>
+  </td>
+</tr>
+<tr id="new_topic_replacement"></tr>

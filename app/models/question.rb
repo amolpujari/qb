@@ -19,30 +19,34 @@ class Question < ActiveRecord::Base
 
   acts_as_taggable
 
-  acts_as_taggable_on :complexities
-  attr_accessible :complexity_list
-
-  def self.complexities
-    self.top_complexities self.complexity_counts.size
-  end
-
   acts_as_taggable_on :topics
+  acts_as_taggable_on :complexities
+  acts_as_taggable_on :natures
+
   attr_accessible :topic_list
+  attr_accessible :complexity_list
+  attr_accessible :nature_list
 
   def self.topics
     self.top_topics self.topic_counts.size
   end
 
-  acts_as_taggable_on :natures
-  attr_accessible :nature_list
-  Natures = ['Subjective', 'Objective']
-
-  def complexity
-    complexity_list.first
+  def self.complexities
+    self.top_complexities self.complexity_counts.size
   end
+
+  def self.natures
+    self.top_natures self.nature_counts.size
+  end
+
+  Natures = ['Subjective', 'Objective']
 
   def topic
     topic_list.first
+  end
+
+  def complexity
+    complexity_list.first
   end
 
   def nature
@@ -118,6 +122,23 @@ class Question < ActiveRecord::Base
 
   def text
     " \n#{self.text_body}"
+  end
+
+  def self.available_for_test
+    return @available if @available
+    
+    @available = []
+    
+    self.topics.each do |topic|
+      self.complexities.each do |complexity|
+        self.natures.each do |nature|
+          count = self.tagged_with([topic, complexity, nature]).count
+          @available << [topic.name, complexity.name, nature.name, count]
+        end
+      end
+    end
+
+    @available
   end
 end
 

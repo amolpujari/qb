@@ -1,16 +1,7 @@
 <%= form_for @question, :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
   <fieldset>
-
     <%= raw errors_for @question %>
-
-    <div class="control-group">
-      <div class="controls">
-        <h4><%= form_action_title %> Question</h4>
-      </div>
-    </div>
-
-    <%= raw input_multiline_text 'body', { :object => 'statement' , :label => '', :html => " autofocus='autofocus' height='300px'"}  %>
-    <%= render :partial => 'layouts/code_mirrors' %>
+    <%= raw input_multiline_text 'body', { :autofocus => 'autofocus', :object => 'statement' , :label => '', :html => " autofocus='autofocus' height='300px'"}  %>
 
     <div class="control-group">
       <table >

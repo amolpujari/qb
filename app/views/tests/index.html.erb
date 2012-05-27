@@ -1,0 +1,46 @@
+<h3>Tests</h3>
+
+<div class="well" style="background-color: white;">
+
+  <%= will_paginate @tests rescue nil%>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th style="width:100px;">questions</th>
+        <th style="width:100px;">marks</th>
+        <th></th>
+        <th style="width:100px;">
+          <a class="btn btn-primary" href="/tests/new">Add</a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tests.each do |test| %>
+        <tr>
+          <td>
+            <%= test.number_of_questions %>
+          </td>
+          <td>
+            <%= test.marks %>
+          </td>
+          <td>
+            <%= test.title %>
+          </td>
+          <td>
+            <button class="btn" onclick="window.location = '/tests/<%=test.id%>/edit';">Edit</button>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="well" style="min-height:40px;">
+  <div style="float:left">
+  </div>
+
+  <div style="float:right;padding-top:30px;">
+  </div>
+</div>
+

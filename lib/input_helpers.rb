@@ -59,12 +59,14 @@ module InputHelpers
     disabled = (options[:disabled] ? "disabled" : "")
     label_html  = input_label(label, options[:mandatory])
 		rows  = options[:textarea_rows]? options[:textarea_rows] : 14
+		cols  = options[:textarea_cols]? options[:textarea_cols] : 98
+		autofocus  = options[:autofocus]? options[:autofocus] : ''
     data  = eval("@#{object}.#{input}") rescue nil
 		element_id = "#{object}_#{input}"
 		help = options[:help]? "onfocus=\"on_focus_clear_help_msg( '#{element_id}', '#{options[:help]}');\" onblur=\"on_blur_show_help_msg( '#{element_id}', '#{options[:help]}');\"" : ''
 		value = options[:value]? options[:value] : ''
 		data =  data || value
-    html << "<div class=\"control-group\"><div class=\"controls\"  style=\"width:78%;\" >#{label_html}<textarea rows='#{rows}' #{disabled} name='#{object}[#{input}]' id='#{object}_#{input}' #{help} >#{data}</textarea></div></div>"
+    html << "<div class=\"control-group\"><div class=\"controls\"  style=\"width:78%;\" >#{label_html}<textarea rows='#{rows}' cols='#{cols}' autofocus='#{autofocus}' #{disabled} name='#{object}[#{input}]' id='#{object}_#{input}' #{help} >#{data}</textarea></div></div>"
   end
 
   def input_tinymce(input, options = {})
@@ -150,7 +152,7 @@ module InputHelpers
 		help = options[:help]? "onfocus=\"on_focus_clear_help_msg( '#{element_id}', '#{options[:help]}');\" onblur=\"on_blur_show_help_msg( '#{element_id}', '#{options[:help]}');\"" : ''
 		value = options[:value]? options[:value] : ''
 		data =  data || value
-    html << "<div id='objective_option_#{count}'><textarea style='float:left;width:90%' rows='4' #{disabled} name='objective_options[][body]' class='question_answers_statement' #{help} >#{h data}</textarea></div>"
+    html << "<div id='objective_option_#{count}'><textarea style='float:left;' cols='98' rows='4' #{disabled} name='objective_options[][body]' class='question_answers_statement' #{help} >#{h data}</textarea></div>"
   end
 
  	def input_answer_label( count, mandatory = false)

@@ -16,7 +16,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = Question.find(params[:id])
+    @question = Question.find_by_id params[:id]
     @statement = @question.statement
   end
 
@@ -43,12 +43,12 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-    @question = Question.find(params[:id])
+    @question = Question.find_by_id params[:id]
     @statement = @question.statement
   end
 
   def update
-    @question = Question.find(params[:id])
+    @question = Question.find_by_id params[:id]
     @question.assign_attributes params[:question]
     @question.assign_attributes :delta => true
     @question.update_objective_options params[:objective_options]
@@ -64,7 +64,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    #@question = Question.find(params[:id])
+    #@question = Question.find_by_id params[:id]
     #@question.destroy
     redirect_to questions_url, :notice => "feature inactive."
   end
