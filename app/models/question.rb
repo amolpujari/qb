@@ -121,7 +121,12 @@ class Question < ActiveRecord::Base
   end
 
   def text
-    " \n#{self.text_body}"
+    option_labels = ['a', 'b', 'c', 'd', 'e']
+    str = "\n#{self.text_body}\n\n Options:\n\n"
+    self.objective_options.each_with_index do |option, index|
+      str << "(#{option_labels[index]})\n#{option.text}\n\n"
+    end
+    str << "\n"
   end
 
   def self.available_for_test
@@ -148,7 +153,7 @@ class Array
     _text = ''
     self.each_with_index do |item, index|
       _text << "\n"
-      _text << "(#{index})"
+      _text << "(#{index+1})"
       _text << item.text
       _text << "\n"
     end
