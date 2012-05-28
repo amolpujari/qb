@@ -1,14 +1,16 @@
 <%= form_for @question, :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
   <fieldset>
     <%= raw errors_for @question %>
-    <%= raw input_multiline_text 'body', { :autofocus => 'autofocus', :object => 'statement' , :label => '', :html => " autofocus='autofocus' height='300px'"}  %>
+    <%= (input_multiline_text 'body', { :autofocus => 'autofocus', :object => 'statement' , :label => '', :html => " autofocus='autofocus' height='300px'"}).html_safe  %>
 
     <div class="control-group">
       <table >
         <tr>
+
           <td style="width:770px;">
-            <%= raw input_attachments :object => 'statement' %>
+            <!--<#% #raw input_attachments :object => 'statement' %>-->
           </td>
+
           <td valign="top">
             <div class="control-group">
               <table style="float:right;">
@@ -22,12 +24,21 @@
                 <tr>
                   <td>Topic: </td>
                   <td>
-                    <%= select("question", "topic_list", Question.topics.collect{|topic| [topic.name, topic.name]}) %>
+                    <%= select("question", "topic_list", Question.topics.collect{|topic| [topic.name, topic.name]} + [['Other', 'Other']], {}, :onchange => 'topic_changed(this.value);') %>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                  </td>
+                  <td>
+                    <input type="text" name="other_topic" id="other_topic" value="Enter other topic"/>
                   </td>
                 </tr>
               </table>
             </div>
           </td>
+
         </tr>
       </table>
     </div>
@@ -67,4 +78,15 @@
     }
   }
   nature_changed($('#question_nature_list').val());
+
+  function topic_changed(topic){
+    if (topic=='Other'){
+      $("#other_topic").effect('highlight',null,'slow');
+    }
+    else{
+      $("#other_topic").effect('fade',null,'slow');
+    }
+  }
+  topic_changed($('#question_topic_list').val());
+
 </script>

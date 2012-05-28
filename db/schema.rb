@@ -50,7 +50,6 @@ ActiveRecord::Schema.define(:version => 20120425135811) do
   add_index "roles", ["name"], :name => "index_roles_on_name"
 
   create_table "statements", :force => true do |t|
-    t.string   "title"
     t.text     "body"
     t.integer  "user_id"
     t.integer  "statement_for_id"
@@ -90,9 +89,8 @@ ActiveRecord::Schema.define(:version => 20120425135811) do
   create_table "tests", :force => true do |t|
     t.string   "title"
     t.integer  "duration"
-    t.integer  "total_marks"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "users", :force => true do |t|

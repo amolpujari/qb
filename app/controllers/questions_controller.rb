@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   skip_before_filter :authenticate_user!, :only => [:index, :show]
-  
+
   def index
     tags = filter_tags
 
@@ -29,6 +29,7 @@ class QuestionsController < ApplicationController
   def create
     @statement = Statement.new(params[:statement])
     @question = Question.new(params[:question])
+    @question.topic_list = params[:other_topic] if params[:question][:topic_list]=='Other'
     @question.statement = @statement
     @statement.user = current_user
     @question.assign_objective_options params[:objective_options]
@@ -50,6 +51,7 @@ class QuestionsController < ApplicationController
   def update
     @question = Question.find_by_id params[:id]
     @question.assign_attributes params[:question]
+    @question.topic_list = params[:other_topic] if params[:question][:topic_list]=='Other'
     @question.assign_attributes :delta => true
     @question.update_objective_options params[:objective_options]
     
@@ -77,7 +79,6 @@ class QuestionsController < ApplicationController
         render :index, :notice => 'Questions uploaded!'
       else
         @questions = Question.paginate(:page => params[:page])
-        puts "----------------------------Questions upload failed: #{@upload_error}"
         flash[:error] = "Questions upload failed: #{@upload_error}"
         render :index
       end

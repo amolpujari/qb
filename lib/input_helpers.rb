@@ -65,7 +65,7 @@ module InputHelpers
 		element_id = "#{object}_#{input}"
 		help = options[:help]? "onfocus=\"on_focus_clear_help_msg( '#{element_id}', '#{options[:help]}');\" onblur=\"on_blur_show_help_msg( '#{element_id}', '#{options[:help]}');\"" : ''
 		value = options[:value]? options[:value] : ''
-		data =  data || value
+		data =  (data || value).html_safe
     html << "<div class=\"control-group\"><div class=\"controls\"  style=\"width:78%;\" >#{label_html}<textarea rows='#{rows}' cols='#{cols}' autofocus='#{autofocus}' #{disabled} name='#{object}[#{input}]' id='#{object}_#{input}' #{help} >#{data}</textarea></div></div>"
   end
 
@@ -151,7 +151,7 @@ module InputHelpers
 		element_id = "#{object}_#{input}"
 		help = options[:help]? "onfocus=\"on_focus_clear_help_msg( '#{element_id}', '#{options[:help]}');\" onblur=\"on_blur_show_help_msg( '#{element_id}', '#{options[:help]}');\"" : ''
 		value = options[:value]? options[:value] : ''
-		data =  data || value
+		data =  (data || value).html_safe
     html << "<div id='objective_option_#{count}'><textarea style='float:left;' cols='98' rows='4' #{disabled} name='objective_options[][body]' class='question_answers_statement' #{help} >#{h data}</textarea></div>"
   end
 
