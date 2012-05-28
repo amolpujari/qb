@@ -1,22 +1,22 @@
 module AttachmentsHelper
 
-	def attachments_show(attachable)
+  def attachments_show(attachable)
     return unless (attachable and attachable.attachments and !attachable.attachments.empty?)
     html = "<div id='attachment_summary'>"
-		html << show_first_image_attachment(attachable)
-		html << show_image_line(attachable)
-		html << show_non_image_attachments(attachable)
-		html << "</div>"
+    html << show_first_image_attachment(attachable)
+    html << show_image_line(attachable)
+    html << show_non_image_attachments(attachable)
+    html << "</div>"
     raw(html)
-	end
+  end
 
-	def attachments_form_for( attachable)
-		attachments = attachable.attachments.collect{
+  def attachments_form_for( attachable)
+    attachments = attachable.attachments.collect{
       |attachment| attachment unless attachment.id.nil? }.compact
 
-		max_allowed = attachable.class.to_s.constantize.max_attachments_allowed
-		html = ''
-		prepare_additional_upload_count
+    max_allowed = attachable.class.to_s.constantize.max_attachments_allowed
+    html = ''
+    prepare_additional_upload_count
     attachments.first(max_allowed).each_with_index{|attachment,i| html << index_object(attachment,i)}
     (attachments.length + 1).upto max_allowed do |i|
       max_allowed_not_reached = ( i < max_allowed )
@@ -54,7 +54,7 @@ module AttachmentsHelper
     files = attachable.non_image_attachments
     return '' if files.empty?
     files.each do |file|
-      html <<	"<div style='margin:5px;' class='line'><img src='/assets/attachement_icon.jpg'/>&nbsp;<a href='#{file.upload.url}' target='_blank' >Download #{file.upload_file_name}</a></div>"
+      html <<  "<div style='margin:5px;' class='line'><img src='/assets/attachement_icon.jpg'/>&nbsp;<a href='#{file.upload.url}' target='_blank' >Download #{file.upload_file_name}</a></div>"
     end
     html
   end

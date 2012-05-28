@@ -6,7 +6,7 @@ class CreateAttachments < ActiveRecord::Migration
       t.timestamps
     end
 
-		add_index 'attachments', :attachable_id
+    add_index 'attachments', :attachable_id
 
     add_column :attachments, :upload_file_name, :string
     add_column :attachments, :upload_content_type, :string

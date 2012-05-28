@@ -1,7 +1,7 @@
 class Attachment < ActiveRecord::Base
   attr_accessible :upload
 
-	belongs_to :attachable, :polymorphic=>true
+  belongs_to :attachable, :polymorphic=>true
   has_attached_file :upload, :styles => { :thumb => "100x100>" }
   before_post_process :image?
 
@@ -9,13 +9,13 @@ class Attachment < ActiveRecord::Base
 #  validates_attachment_content_type :upload, :content_type => [
 #    'image/jpeg', 'image/png', 'image/gif',
 #    'application/pdf',
-#		'application/msword',
-#		'*',
-#		'text/plain',
-#		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-#		'application/vnd.ms-powerpoint',
-#		'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-#		'application/vnd.openxmlformats-officedocument.presentationml.slideshow'
+#    'application/msword',
+#    '*',
+#    'text/plain',
+#    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+#    'application/vnd.ms-powerpoint',
+#    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+#    'application/vnd.openxmlformats-officedocument.presentationml.slideshow'
 #  ]
 
   def image?
