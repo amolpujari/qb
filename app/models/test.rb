@@ -35,4 +35,12 @@ class Test < ActiveRecord::Base
   def marks
     self.test_topics.sum('number_of_questions * marks_for_each_question').to_i
   end
+
+  def sample
+    self.sample_questions
+  end
+
+  def sample_questions
+    self.test_topics.map(&:sample_questions).flatten
+  end
 end

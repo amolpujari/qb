@@ -5,6 +5,8 @@ class Question < ActiveRecord::Base
   has_one :user, :through => :statement
   has_many :objective_options
 
+  attr_accessor :marks
+
   def title
     "#{self.text_body[0..200]} ..."
   end

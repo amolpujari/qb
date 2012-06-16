@@ -9,6 +9,16 @@ class TestsController < ApplicationController
     render :edit
   end
 
+  def sample
+    @test = Test.find_by_id params[:id]
+    @questions = @test.sample
+    
+    respond_to do |format|
+      format.html # index.html.erb
+      format.text { send_data @questions.text_format, :filename => "#{Time.now.utc.to_s.gsub('-', '').gsub(':', '').delete(' ')}_test_#{@test.title}.txt" }
+    end
+  end
+
   def new
     @test = Test.new
   end

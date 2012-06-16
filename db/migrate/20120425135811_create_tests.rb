@@ -9,10 +9,11 @@ class CreateTests < ActiveRecord::Migration
     
     create_table :test_topics do |t|
       t.integer :test_id
+
       t.string  :topic
-      
       t.string  :nature
       t.string  :complexity
+      
       t.integer :number_of_questions
       t.integer :marks_for_each_question
 

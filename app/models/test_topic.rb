@@ -8,4 +8,12 @@ class TestTopic < ActiveRecord::Base
 
   validates :number_of_questions, :numericality => { :greater_than => 0, :less_than => 61 }
   validates :marks_for_each_question, :numericality => { :greater_than => 0, :less_than => 41 }
+
+  def tags
+    [self.nature, self.complexity, self.topic]
+  end
+
+  def sample_questions
+    Question.tagged_with(self.tags).sample(self.number_of_questions)#.marks(self.marks_for_each_question)
+  end
 end

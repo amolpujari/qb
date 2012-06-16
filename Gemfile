@@ -43,4 +43,5 @@ gem 'thinking-sphinx', '2.0.10'
 
 gem 'nokogiri'
 gem 'rubyXL'
+#gem "haml", '3.0.25'
 
