@@ -122,15 +122,6 @@ class Question < ActiveRecord::Base
     end
   end
 
-  def text
-    option_labels = ['a', 'b', 'c', 'd', 'e']
-    str = "\n#{self.text_body}\n\n Options:\n\n"
-    self.objective_options.each_with_index do |option, index|
-      str << "(#{option_labels[index]})\n#{option.text}\n\n"
-    end
-    str << "\n"
-  end
-
   def self.available_for_test
     return @available if @available
     
@@ -147,18 +138,7 @@ class Question < ActiveRecord::Base
 
     @available
   end
+
+  include TxtFormattable
 end
 
-
-class Array
-  def text_format
-    _text = ''
-    self.each_with_index do |item, index|
-      _text << "\n"
-      _text << "(#{index+1})"
-      _text << item.text
-      _text << "\n"
-    end
-    _text
-  end
-end

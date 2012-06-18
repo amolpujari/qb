@@ -14,6 +14,6 @@ class TestTopic < ActiveRecord::Base
   end
 
   def sample_questions
-    Question.tagged_with(self.tags).sample(self.number_of_questions)#.marks(self.marks_for_each_question)
+    Question.tagged_with(self.tags).sample(self.number_of_questions).each{|question| question.marks = self.marks_for_each_question}
   end
 end

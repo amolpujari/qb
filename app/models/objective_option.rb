@@ -5,4 +5,8 @@ class ObjectiveOption < ActiveRecord::Base
   def text
     Nokogiri::HTML(self.body).text
   end
+
+  def is_correct?
+    self.is_correct
+  end
 end
