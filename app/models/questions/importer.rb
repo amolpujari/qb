@@ -135,7 +135,7 @@ module Importer
       unless columns[index].nil?
         if columns[index].to_s.strip.size > 0
           answers_statements << columns[index]
-          available_answers << expected_right_answer.at( index-5)
+          available_answers << expected_right_answer.at( index-4)
         end
       end
     end

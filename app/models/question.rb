@@ -81,6 +81,7 @@ class Question < ActiveRecord::Base
   def update_objective_options options
     return self.objective_options.destroy unless options
 
+    options = options.values if options.is_a? Hash
     options.reverse!
 
     self.objective_options.each do |existing|
@@ -103,6 +104,7 @@ class Question < ActiveRecord::Base
   def assign_objective_options options
     return self.objective_options.destroy unless options
 
+    options = options.values if options.is_a? Hash
     options.reverse!
 
     self.objective_options.each do |existing|

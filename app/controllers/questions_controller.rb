@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   skip_before_filter :authenticate_user!, :only => [:index, :show]
+  before_filter :validate_tags, :only => [:create, :update]
 
   def index
     tags = filter_tags
@@ -29,7 +30,7 @@ class QuestionsController < ApplicationController
   def create
     @statement = Statement.new(params[:statement])
     @question = Question.new(params[:question])
-    @question.topic_list = params[:other_topic] if params[:question][:topic_list]=='Other'
+    @question.topic_list = params[:question][:topic_list] unless params[:question][:topic_list].blank?
     @question.statement = @statement
     @statement.user = current_user
     @question.assign_objective_options params[:objective_options]
@@ -51,7 +52,7 @@ class QuestionsController < ApplicationController
   def update
     @question = Question.find_by_id params[:id]
     @question.assign_attributes params[:question]
-    @question.topic_list = params[:other_topic] if params[:question][:topic_list]=='Other'
+    @question.topic_list = params[:question][:topic_list] unless params[:question][:topic_list].blank?
     @question.assign_attributes :delta => true
     @question.update_objective_options params[:objective_options]
     
@@ -86,6 +87,11 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def validate_tags
+    params[:question][:topic_list] = params[:other_topic] if params[:question][:topic_list]=='Other'
+    params[:question].delete :topic_list if params[:question][:topic_list].downcase.include? 'other'
+  end
 
   def filter_tags
     tags = []

@@ -2,7 +2,7 @@ Qb::Application.routes.draw do
   
   resources :questions do
     collection do
-      get 'import'
+      post 'import'
     end
   end
 

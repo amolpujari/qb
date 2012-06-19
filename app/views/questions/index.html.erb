@@ -8,7 +8,7 @@
     <thead>
       <tr>
         <th style="width:70%;">
-          <input id="question_search" type="text" value="<%= params[:search] %>" onkeyup="if(check_for_enter_pressed(event)) tagged_questions();" autofocus="autofocus"/>
+          <!--<input id="question_search" type="text" value="<%= params[:search] %>" onkeyup="if(check_for_enter_pressed(event)) tagged_questions();" autofocus="autofocus"/>-->
         </th>
         <th>
           <%= select("question", "complexity_list", Question.complexities.collect{|complexity| [complexity.name, complexity.name]}, {:prompt => 'Any', :selected => params[:complexity]}, :onchange => 'tagged_questions();', :style => 'width:100px;') %>

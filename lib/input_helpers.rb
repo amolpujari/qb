@@ -152,16 +152,16 @@ module InputHelpers
     help = options[:help]? "onfocus=\"on_focus_clear_help_msg( '#{element_id}', '#{options[:help]}');\" onblur=\"on_blur_show_help_msg( '#{element_id}', '#{options[:help]}');\"" : ''
     value = options[:value]? options[:value] : ''
     data =  (data || value).html_safe
-    html << "<div id='objective_option_#{count}'><textarea style='float:left;' cols='98' rows='4' #{disabled} name='objective_options[][body]' #{help} >#{data}</textarea></div>"
+    html << "<div id='objective_option_#{count}'><textarea style='float:left;' cols='98' rows='4' #{disabled} name='objective_options[#{count}][body]' #{help} >#{data}</textarea></div>"
   end
 
    def input_answer_label( count, mandatory = false)
-    checked = @question.objective_options[count-1].is_correct ? 'checked' : '' rescue ''
-    label = "Option #{(count)}"
+    checked = @question.objective_options[count].is_correct ? 'checked' : '' rescue ''
+    label = "Option #{(count+1)}"
     return ' ' if label.length < 2
     label = label.gsub('_',' ').camelize
     mandatory ? label <<  "<span style=\"color: red; font-weight: bold;\">*</span>&nbsp;" : label << "<span style=\"color: red; font-weight: bold;\">&nbsp;</span>&nbsp;"
-    "<div style='width:780px;float:left;margin-top:13px;'>#{label}:</div><div style='width:150px;float:left;margin-top:13px;'>correct one? : <input type='checkbox' id='question_answers_#{count}_checkbox' name='objective_options[][is_correct]' value='1' #{checked} /></div>"
+    "<div style='width:780px;float:left;margin-top:13px;'>#{label}:</div><div style='width:150px;float:left;margin-top:13px;'>correct one? : <input type='checkbox' id='question_answers_#{count}_checkbox' name='objective_options[#{count}][is_correct]' value='1' #{checked} /></div>"
   end
 
   def input_bold_label( label, mandatory = false)
