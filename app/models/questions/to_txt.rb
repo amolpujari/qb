@@ -1,11 +1,11 @@
-module TxtFormattable
-  def text
+class Question < ActiveRecord::Base
+  def to_txt
     text_answer = ''
     
     option_labels = ['a', 'b', 'c', 'd', 'e']
     str = "\n#{self.text_body}\n\n Options:\n\n"
     self.objective_options.each_with_index do |option, index|
-      str << "(#{option_labels[index]})\n#{option.text}\n\n"
+      str << "(#{option_labels[index]})\n#{option.to_txt}\n\n"
       
       text_answer << "#{option_labels[index]}, " if option.is_correct?
     end
@@ -23,7 +23,7 @@ class Array
     self.each_with_index do |question, index|
       text << "\n"
       text << "(#{index+1})"
-      question_text, question_answer = question.text
+      question_text, question_answer = question.to_txt
       text << question_text
       text << "\n"
 

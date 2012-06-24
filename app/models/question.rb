@@ -19,41 +19,7 @@ class Question < ActiveRecord::Base
     Nokogiri::HTML(self.body).text
   end
 
-  acts_as_taggable
-
-  acts_as_taggable_on :topics
-  acts_as_taggable_on :complexities
-  acts_as_taggable_on :natures
-
-  attr_accessible :topic_list
-  attr_accessible :complexity_list
-  attr_accessible :nature_list
-
-  def self.topics
-    self.top_topics self.topic_counts.size
-  end
-
-  def self.complexities
-    self.top_complexities self.complexity_counts.size
-  end
-
-  def self.natures
-    self.top_natures self.nature_counts.size
-  end
-
   Natures = ['Subjective', 'Objective']
-
-  def topic
-    topic_list.first
-  end
-
-  def complexity
-    complexity_list.first
-  end
-
-  def nature
-    nature_list.first
-  end
 
   def is_objective?
     self.nature=='Objective'
@@ -61,13 +27,6 @@ class Question < ActiveRecord::Base
 
   def is_subjective?
     self.nature=='Subjective'
-  end
-
-  attr_accessible :delta
-  define_index do
-    indexes statement.body, :as => :body
-
-    set_property :delta => true
   end
 
   def options
@@ -140,7 +99,5 @@ class Question < ActiveRecord::Base
 
     @available
   end
-
-  include TxtFormattable
 end
 

@@ -2,7 +2,7 @@ class ObjectiveOption < ActiveRecord::Base
   attr_accessible :body, :is_correct
   belongs_to :question
 
-  def text
+  def to_txt
     Nokogiri::HTML(self.body).text
   end
 
