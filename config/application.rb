@@ -67,10 +67,13 @@ module Qb
 
     config.assets.initialize_on_precompile = false # for heroku
     
-#    config.middleware.use ExceptionNotifier,
-#      :email_prefix => "[qb exception] ",
-#      :sender_address => '"qb Notifier" <qb@gslab.com>',
-#      :exception_recipients => ['amolp@gslab.com']
+    config.middleware.use ExceptionNotifier,
+      :email_prefix => "[qb exception] ",
+      :sender_address => '"qb Notifier" <qb@gslab.com>',
+      :exception_recipients => ['amolp@gslab.com']
+
+    config.after_initialize do
+    end
   end
 end
 

@@ -5,6 +5,8 @@ class Question < ActiveRecord::Base
   has_one :user, :through => :statement
   has_many :objective_options
 
+  concerned_with :searchable, :taggable, :to_txt
+
   attr_accessor :marks
 
   def title
