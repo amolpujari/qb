@@ -87,19 +87,26 @@ class Question < ActiveRecord::Base
 
   def self.available_for_test
     return @available if @available
-    
-    @available = []
-    
-    self.topics.each do |topic|
-      self.complexities.each do |complexity|
-        self.natures.each do |nature|
-          count = self.tagged_with([topic, complexity, nature]).count
-          @available << [topic.name, complexity.name, nature.name, count]
-        end
-      end
-    end
 
+    @available = []
+
+    #    self.topics.each do |topic|
+    #      self.complexities.each do |complexity|
+    #        self.natures.each do |nature|
+    #          count = self.tagged_with([topic, complexity, nature]).count
+    #          @available << [topic.name, complexity.name, nature.name, count]
+    #        end
+    #      end
+    #    end
+
+    self.topics.product(self.complexities, self.natures).each do |topic_complexity_nature|
+      topic_complexity_nature_count = topic_complexity_nature << self.tagged_with(topic_complexity_nature).count
+      
+      @available << topic_complexity_nature_count
+    end
+    
     @available
   end
 end
+
 
