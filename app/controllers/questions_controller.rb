@@ -51,9 +51,11 @@ class QuestionsController < ApplicationController
 
   def update
     @question = Question.find_by_id params[:id]
+    @statement = @question.statement
     
     if @question.user != current_user
-      render :edit, :notice  => "For now, only owner can edit this."
+      flash[:error] = "For now, only owner can edit this."
+      render :edit
       return
     end
 
@@ -62,7 +64,6 @@ class QuestionsController < ApplicationController
     @question.assign_attributes :delta => true
     @question.update_objective_options params[:objective_options]
     
-    @statement = @question.statement
     if @statement.save_attachments(params[:attachment]) and @statement.update_attributes(params[:statement]) and @question.save
       redirect_to @question, :notice  => "Successfully updated question."
     else
