@@ -50,6 +50,11 @@ class QuestionsController < ApplicationController
   end
 
   def update
+    if @question.user != current_user
+      render :edit, :notice  => "For now, only owner can edit this."
+      return
+    end
+
     @question = Question.find_by_id params[:id]
     @question.assign_attributes params[:question]
     @question.topic_list = params[:question][:topic_list] unless params[:question][:topic_list].blank?
