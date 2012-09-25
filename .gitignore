@@ -13,7 +13,8 @@ log/*.log
 log/*.pid
 tmp
 
-/nbproject
+nbproject
+nbproject/*
 node_modules
 *.pyc
 database.yml
