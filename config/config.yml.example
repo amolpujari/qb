@@ -2,4 +2,5 @@ defaults: &defaults
 
 development:
   allowed_email_domains: gslab.com, kpoint.com
+  open_registrations: false
 

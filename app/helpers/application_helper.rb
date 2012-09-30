@@ -24,4 +24,15 @@ module ApplicationHelper
     stmt = stmt_space_adjusted if stmt_space_adjusted.size > 2 rescue stmt
   end
 
+  def devise_mapping
+    Devise.mappings[:user]
+  end
+
+  def resource_name
+    devise_mapping.name
+  end
+
+  def resource_class
+    devise_mapping.to
+  end
 end
