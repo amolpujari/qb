@@ -40,9 +40,8 @@
 
 <script type="text/javascript">
   // collect available questions count
-<% available_questions = Question.available_for_test %>
   var available_questions = new Array();
-<% available_questions.each do |available_question| %>
+<% @available_questions.each do |available_question| %>
     available_questions.push({
       'topic'     :'<%= available_question[0] -%>',
       'complexity':'<%= available_question[1] -%>',
@@ -242,8 +241,6 @@
       return false
     return true;
   }
-
-<% @test_topics = @test.test_topics %>
 
 <% if @test_topics.blank? %>
     add_topic();

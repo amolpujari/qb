@@ -21,6 +21,14 @@ class TestsController < ApplicationController
 
   def new
     @test = Test.new
+    @test_topics = @test.test_topics
+    @available_questions = Question.available_for_test
+  end
+
+  def edit
+    @test = Test.find_by_id params[:id]
+    @test_topics = @test.test_topics
+    @available_questions = Question.available_for_test
   end
 
   def create
@@ -31,10 +39,6 @@ class TestsController < ApplicationController
     else
       render '/tests/new'
     end
-  end
-
-  def edit
-    @test = Test.find_by_id params[:id]
   end
 
   def update
