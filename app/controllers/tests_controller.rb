@@ -1,12 +1,9 @@
 class TestsController < ApplicationController
+
+  before_filter :prepare_test, :only => [:new, :edit, :show]
   
   def index
     @tests = Test.all
-  end
-
-  def show
-    @test = Test.find_by_id params[:id]
-    render :edit
   end
 
   def sample
@@ -20,15 +17,13 @@ class TestsController < ApplicationController
   end
 
   def new
-    @test = Test.new
-    @test_topics = @test.test_topics
-    @available_questions = Question.available_for_test
   end
 
   def edit
-    @test = Test.find_by_id params[:id]
-    @test_topics = @test.test_topics
-    @available_questions = Question.available_for_test
+  end
+
+  def show
+    render :edit
   end
 
   def create
@@ -55,5 +50,13 @@ class TestsController < ApplicationController
   end
 
   def destroy
+  end
+
+  private
+
+  def prepare_test
+    @test = Test.find_by_id params[:id] || Test.new
+    @test_topics = @test.test_topics
+    @available_questions = Question.available_for_test
   end
 end
