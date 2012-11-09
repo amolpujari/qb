@@ -16,6 +16,11 @@ class TestsController < ApplicationController
     end
   end
 
+  def conduct
+    if request.post?
+    end
+  end
+
   def new
   end
 

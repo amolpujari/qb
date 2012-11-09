@@ -11,6 +11,7 @@
         <th style="width:100px;">marks</th>
         <th></th>
         <th></th>
+        <th></th>
         <th style="width:100px;">
           <a class="btn btn-primary" href="/tests/new">Add</a>
         </th>
@@ -27,6 +28,9 @@
           </td>
           <td>
             <%= test.title %>
+          </td>
+          <td>
+            <a href="#" onclick="conduct_test(<%=test.id%>);">Conduct</a>
           </td>
           <td>
             <a href="#" onclick="window.location = '/tests/<%=test.id%>/sample?format=text'">Download Sample</a>

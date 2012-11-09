@@ -7,11 +7,15 @@
     <title><%= content_for?(:title) ? yield(:title) : "qb" %></title>
     <meta name="description" content="">
     <meta name="author" content="">
+
     <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= stylesheet_link_tag params[:controller] %>
+
     <%= javascript_include_tag "application", 'bootstrap-button', 'bootstrap-popover' %>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+    <%= javascript_include_tag params[:controller] %>
+
     <%= tinymce_assets %>
-    <link type="text/css" rel="stylesheet" media="all" href="/assets/custom.css" />
     <%= csrf_meta_tags %>
     <%= yield(:head) %>
   </head>

@@ -13,14 +13,18 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require_tree .
-
-//= require tinymce
-//= require tinymce-jquery
 
 function check_for_enter_pressed(e){
   if (e.keyCode == 13)
     return true;
   
+  return false;
+}
+
+function isArrowKeyPressed(e){
+  var evt = e || window.event;
+  if(evt.keyCode >= 37 && evt.keyCode <= 40){
+    return true;
+  }
   return false;
 }
