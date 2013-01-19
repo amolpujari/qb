@@ -1,6 +1,7 @@
 class TestsController < ApplicationController
 
-  before_filter :prepare_test, :only => [:new, :edit, :show, :update, :sample, :create]
+  before_filter :test
+  before_filter :available_questions, :only => [:new, :edit, :show]
   
   def index
     @tests = Test.all
@@ -60,9 +61,13 @@ class TestsController < ApplicationController
     "#{Time.now.utc.to_s.gsub('-', '').gsub(':', '').delete(' ')}_test_#{@test.title}.txt"
   end
 
-  def prepare_test
-    @test = Test.find params[:id] || Test.new
-    @test_topics = @test.test_topics
-    @available_questions = Question.available_for_test
+  def test
+    @test ||= Test.find_by_id params[:id] || Test.new
+    @test_topics ||= @test.test_topics
+    @test
+  end
+
+  def available_questions
+    @available_questions ||= Question.available_for_test
   end
 end

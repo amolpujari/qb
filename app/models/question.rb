@@ -5,6 +5,8 @@ class Question < ActiveRecord::Base
   has_one :user, :through => :statement
   has_many :objective_options
 
+  scope :recently_uploaded, lambda { |size| order('created_at desc').limit(size) }
+
   resourcify
 
   concerned_with :searchable, :taggable, :to_txt
@@ -15,9 +17,10 @@ class Question < ActiveRecord::Base
     "#{self.text_body[0..200]} ..."
   end
 
-  def body
-    statement.body
-  end
+  #def body
+  #  statement.body
+  #end
+  delegate :nody, :to => :statement
 
   def text_body
     Nokogiri::HTML(self.body).text

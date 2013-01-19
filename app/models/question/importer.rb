@@ -1,10 +1,10 @@
 require 'rubyXL'
 
-module Importer
+class QuestionImporter
   MIN_SIZE = 7168          #7Kb
   MAX_SIZE = 10485760      #10Mb
   
-  def questions_uploaded_successfuly_from file
+  def initialize file
     #@upload_questions_moderator_id = nil
     #@upload_questions_status = 'moderated'
 
@@ -39,7 +39,12 @@ module Importer
     end
     
     File.delete file_path
-    true
+
+    result
+  end
+
+  def result
+    [@upload_error, @failed_upload_questions, @successfuly_upload_questions]
   end
 
   private

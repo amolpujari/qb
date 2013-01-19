@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+  before_filter :question
   skip_before_filter :authenticate_user!, :only => [:index, :show]
   before_filter :validate_tags, :only => [:create, :update]
 
@@ -17,26 +18,21 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = Question.find params[:id]
-    @statement = @question.statement
   end
 
   def new
-    @question = Question.new
-    @statement = Statement.new
-    @question.statement = @statement
   end
 
   def create
-    @statement = Statement.new(params[:statement])
-    @question = Question.new(params[:question])
-    @question.topic_list = params[:question][:topic_list] unless params[:question][:topic_list].blank?
-    @question.statement = @statement
     @statement.user = current_user
+    
+    @question.assign_attributes params[:question]
+    @question.topic_list = params[:question][:topic_list] unless params[:question][:topic_list].blank?
     @question.assign_objective_options params[:objective_options]
 
     if @statement.save_attachments(params[:attachment]) and @question.save!
       redirect_to @question, :notice => "Successfully created question."
+
     else
       @question.errors[:base] << @statement.errors
       @question.errors[:base] << @attachments_errors
@@ -45,14 +41,9 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-    @question = Question.find params[:id]
-    @statement = @question.statement
   end
 
   def update
-    @question = Question.find params[:id]
-    @statement = @question.statement
-    
     if @question.user != current_user
       flash[:error] = "For now, only owner can edit this."
       render :edit
@@ -61,11 +52,13 @@ class QuestionsController < ApplicationController
 
     @question.assign_attributes params[:question]
     @question.topic_list = params[:question][:topic_list] unless params[:question][:topic_list].blank?
-    @question.assign_attributes :delta => true
     @question.update_objective_options params[:objective_options]
+    
+    @question.assign_attributes :delta => true
     
     if @statement.save_attachments(params[:attachment]) and @statement.update_attributes(params[:statement]) and @question.save
       redirect_to @question, :notice  => "Successfully updated question."
+
     else
       @question.errors[:base] << @statement.errors
       @question.errors[:base] << @attachments_errors
@@ -74,17 +67,20 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    #@question = Question.find params[:id]
+    #@question = Question.find_by_id params[:id]
     #@question.destroy
     redirect_to questions_url, :notice => "feature inactive."
   end
 
-  include Importer
   def import
     if request.post?
-      if questions_uploaded_successfuly_from params[:questions_file]
-        @questions = Question.find(:all, :order => ' created_at desc ', :limit => @successfuly_upload_questions.size)
+
+      @upload_error, @failed_upload_questions, @successfuly_upload_questions = QuestionImporter.new(params[:questions_file]).result
+      
+      if not @upload_error
+        @questions = Question.recently_uploaded @successfuly_upload_questions.size
         render :index, :notice => 'Questions uploaded!'
+
       else
         @questions = Question.paginate(:page => params[:page])
         flash[:error] = "Questions upload failed: #{@upload_error}"
@@ -107,5 +103,17 @@ class QuestionsController < ApplicationController
     tags << params[:search].to_s      unless params[:search].blank?
     tags = tags.collect{ |tag| tag.downcase }
     tags = tags.uniq.compact
+  end
+
+  def question
+    @question ||= Question.find_by_id params[:id] || Question.new
+    @question.statement ||= statement
+    @question
+  end
+
+  def statement
+    @statement ||= @question.statement
+    @statement ||= Statement.new params[:statement] unless params[:statement].blank?
+    @statement ||= Statement.new
   end
 end
