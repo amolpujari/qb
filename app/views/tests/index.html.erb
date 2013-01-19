@@ -2,7 +2,7 @@
 
 <div class="well" style="background-color: white;">
 
-  <%= will_paginate @tests rescue nil%>
+  <%= will_paginate @tests if @tests%>
 
   <table class="table table-striped">
     <thead>
@@ -30,7 +30,7 @@
             <%= test.title %>
           </td>
           <td>
-            <a href="#" onclick="conduct_test(<%=test.id%>);">Conduct</a>
+            <%= link_to 'Conduct', "/tests/#{test.id}/conduct", :remote => true %>
           </td>
           <td>
             <a href="#" onclick="window.location = '/tests/<%=test.id%>/sample?format=text'">Download Sample</a>

@@ -2,7 +2,7 @@
 
 <div class="well" style="background-color: white;">
 
-  <%= will_paginate @questions rescue nil%>
+  <%= will_paginate @questions if @questions%>
 
   <table class="table table-striped">
     <thead>
