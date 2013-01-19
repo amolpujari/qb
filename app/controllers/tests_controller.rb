@@ -7,12 +7,12 @@ class TestsController < ApplicationController
   end
 
   def sample
-    @test = Test.find_by_id params[:id]
+    @test = Test.find params[:id]
     @questions = @test.sample
     
     respond_to do |format|
       format.html # index.html.erb
-      format.text { send_data @questions.text_format, :filename => "#{Time.now.utc.to_s.gsub('-', '').gsub(':', '').delete(' ')}_test_#{@test.title}.txt" }
+      format.text { send_data @questions.text_format, :filename => filename_now }
     end
   end
 
@@ -42,7 +42,7 @@ class TestsController < ApplicationController
   end
 
   def update
-    @test = Test.find_by_id params[:id]
+    @test = Test.find params[:id]
     @test.assign_attributes params[:test]
     @test.update_test_topics params[:test_topics]
 
@@ -59,8 +59,12 @@ class TestsController < ApplicationController
 
   private
 
+  def filename_now
+    "#{Time.now.utc.to_s.gsub('-', '').gsub(':', '').delete(' ')}_test_#{@test.title}.txt"
+  end
+
   def prepare_test
-    @test = Test.find_by_id params[:id] || Test.new
+    @test = Test.find params[:id] || Test.new
     @test_topics = @test.test_topics
     @available_questions = Question.available_for_test
   end

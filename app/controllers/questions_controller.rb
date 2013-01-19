@@ -17,7 +17,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = Question.find_by_id params[:id]
+    @question = Question.find params[:id]
     @statement = @question.statement
   end
 
@@ -45,12 +45,12 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-    @question = Question.find_by_id params[:id]
+    @question = Question.find params[:id]
     @statement = @question.statement
   end
 
   def update
-    @question = Question.find_by_id params[:id]
+    @question = Question.find params[:id]
     @statement = @question.statement
     
     if @question.user != current_user
@@ -74,7 +74,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    #@question = Question.find_by_id params[:id]
+    #@question = Question.find params[:id]
     #@question.destroy
     redirect_to questions_url, :notice => "feature inactive."
   end
