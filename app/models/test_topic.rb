@@ -10,10 +10,10 @@ class TestTopic < ActiveRecord::Base
   validates :marks_for_each_question, :numericality => { :greater_than => 0, :less_than => 41 }
 
   def tags
-    [self.nature, self.complexity, self.topic]
+    [nature, complexity, topic]
   end
 
   def sample_questions
-    Question.tagged_with(self.tags).sample(self.number_of_questions).each{|question| question.marks = self.marks_for_each_question}
+    Question.tagged_with(tags).sample(number_of_questions).each{|question| question.marks = marks_for_each_question}
   end
 end

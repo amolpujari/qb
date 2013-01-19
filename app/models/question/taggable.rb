@@ -9,28 +9,28 @@ class Question < ActiveRecord::Base
   attr_accessible :complexity_list
   attr_accessible :nature_list
 
-  def self.topics
-    self.top_topics self.topic_counts.size
+  def topics
+    top_topics topic_counts.size
   end
 
-  def self.topic_names
-    self.topics.map(&:name)
+  def topic_names
+    topics.map(&:name)
   end
 
-  def self.complexities
-    self.top_complexities self.complexity_counts.size
+  def complexities
+    top_complexities complexity_counts.size
   end
 
-  def self.complexity_names
-    self.complexities.map(&:name)
+  def complexity_names
+    complexities.map(&:name)
   end
 
-  def self.natures
-    self.top_natures self.nature_counts.size
+  def natures
+    top_natures nature_counts.size
   end
 
-  def self.nature_names
-    self.natures.map(&:name)
+  def nature_names
+    natures.map(&:name)
   end
   
   def topic

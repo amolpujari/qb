@@ -7,6 +7,6 @@ class ObjectiveOption < ActiveRecord::Base
   end
 
   def is_correct?
-    self.is_correct
+    is_correct
   end
 end

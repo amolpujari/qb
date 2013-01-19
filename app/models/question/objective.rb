@@ -2,13 +2,13 @@ class Question < ActiveRecord::Base
   has_many :objective_options
 
   def options
-    return unless self.is_objective?
+    return unless is_objective?
     
-    self.objective_options.select{ |option| option.body and option.body.strip.length > 0 }
+    objective_options.select{ |option| option.body and option.body.strip.length > 0 }
   end
 
   def update_objective_options options
-    return self.objective_options.destroy unless options
+    return objective_options.destroy unless options
 
     options = options.values if options.is_a? Hash.collect
     options.reverse!
@@ -26,17 +26,17 @@ class Question < ActiveRecord::Base
     end
 
     options.each do |new_one|
-      self.objective_options.create new_one
+      objective_options.create new_one
     end
   end
 
   def assign_objective_options options
-    return self.objective_options.destroy unless options
+    return objective_options.destroy unless options
 
     options = options.values if options.is_a? Hash
     options.reverse!
 
-    self.objective_options.each do |existing|
+    objective_options.each do |existing|
       updated_one = options.pop
 
       if updated_one
@@ -49,7 +49,7 @@ class Question < ActiveRecord::Base
     end
 
     options.each do |new_one|
-      self.objective_options.new new_one
+      objective_options.new new_one
     end
   end
 end

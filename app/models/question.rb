@@ -21,8 +21,8 @@ class Question < ActiveRecord::Base
 
     @available = []
 
-    self.topics.product(self.complexities, self.natures).each do |topic_complexity_nature|
-      topic_complexity_nature_count = topic_complexity_nature << self.tagged_with(topic_complexity_nature).count
+    topics.product(complexities, natures).each do |topic_complexity_nature|
+      topic_complexity_nature_count = topic_complexity_nature << tagged_with(topic_complexity_nature).count
       
       @available << topic_complexity_nature_count
     end

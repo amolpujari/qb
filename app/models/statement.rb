@@ -7,6 +7,6 @@ class Statement < ActiveRecord::Base
   belongs_to :question, :conditions => {'statements.statement_for_type' => 'Question' }, :foreign_key => :statement_for_id
 
   def text_body
-    Nokogiri::HTML(self.body).text
+    Nokogiri::HTML(body).text
   end
 end
