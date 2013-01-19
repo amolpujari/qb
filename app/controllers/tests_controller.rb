@@ -1,13 +1,12 @@
 class TestsController < ApplicationController
 
-  before_filter :prepare_test, :only => [:new, :edit, :show]
+  before_filter :prepare_test, :only => [:new, :edit, :show, :update, :sample, :create]
   
   def index
     @tests = Test.all
   end
 
   def sample
-    @test = Test.find params[:id]
     @questions = @test.sample
     
     respond_to do |format|
@@ -32,7 +31,6 @@ class TestsController < ApplicationController
   end
 
   def create
-    @test = Test.new params[:test]
     @test.test_topics.build params[:test_topics]
     if @test.save
       redirect_to @test, :notice => "Successfully created test."
@@ -42,7 +40,6 @@ class TestsController < ApplicationController
   end
 
   def update
-    @test = Test.find params[:id]
     @test.assign_attributes params[:test]
     @test.update_test_topics params[:test_topics]
 
