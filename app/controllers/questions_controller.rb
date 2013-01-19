@@ -107,7 +107,7 @@ class QuestionsController < ApplicationController
 
   def question
     @question ||= Question.find_by_id params[:id] || Question.new
-    @question.statement ||= statement
+    @question.statement ||= statement if @question
     @question
   end
 

@@ -63,7 +63,7 @@ class TestsController < ApplicationController
 
   def test
     @test ||= Test.find_by_id params[:id] || Test.new
-    @test_topics ||= @test.test_topics
+    @test_topics ||= @test and @test.test_topics
     @test
   end
 
