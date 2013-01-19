@@ -38,16 +38,14 @@ class Question < ActiveRecord::Base
 
   def options
     return unless self.is_objective?
-    options = self.objective_options.collect do |option|
-      option if option.body and option.body.strip.length > 0
-    end
-    options.compact!
+    
+    self.objective_options.select{ |option| option.body and option.body.strip.length > 0 }
   end
 
   def update_objective_options options
     return self.objective_options.destroy unless options
 
-    options = options.values if options.is_a? Hash
+    options = options.values if options.is_a? Hash.collect
     options.reverse!
 
     self.objective_options.each do |existing|
