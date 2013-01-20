@@ -2,8 +2,7 @@ class Test < ActiveRecord::Base
   attr_accessible :title, :duration
   has_many :test_topics
 
-  validates :title, :length => { :in => 6..40 },
-		:uniqueness => { :case_sensitive => false }
+  validates :title, :length => { :in => 6..40 }, :uniqueness => { :case_sensitive => false }
   validates :duration, :numericality => { :greater_than => 9, :less_than => 121 }
   
   concerned_with :inviting
@@ -31,8 +30,9 @@ class Test < ActiveRecord::Base
   end
 
   def existing_topic topic, complexity, nature
-		@_test_topics ||= test_topics || []
-    @_test_topics.where( :topic => topic, :complexity => complexity, :nature => nature).first
+		#@_test_topics ||= test_topics || []
+    #@_test_topics.where( :topic => topic, :complexity => complexity, :nature => nature).first
+    test_topics.where( :topic => topic, :complexity => complexity, :nature => nature).first
   end
   
   def number_of_questions

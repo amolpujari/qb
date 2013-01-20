@@ -7,6 +7,9 @@ class QuestionImporter
   def initialize file
     #@upload_questions_moderator_id = nil
     #@upload_questions_status = 'moderated'
+    @failed_upload_question_numbers = []
+    @successfuly_upload_question_numbers = []
+    @successfuly_upload_questions = []
 
     if file.blank?
       @upload_error = 'Blank file'
@@ -44,7 +47,7 @@ class QuestionImporter
   end
 
   def result
-    [@upload_error, @failed_upload_questions, @successfuly_upload_questions]
+    [@upload_error, @failed_upload_question_numbers, @successfuly_upload_question_numbers, @successfuly_upload_questions]
   end
 
   private
@@ -63,9 +66,6 @@ class QuestionImporter
   end
 
   def process_questions_xls(file_path)
-    @failed_upload_questions = []
-    @successfuly_upload_questions = []
-    
     begin
       xlsx = RubyXL::Parser.parse file_path
       first_sheet = xlsx[0].extract_data
@@ -107,29 +107,29 @@ class QuestionImporter
 
     topic = columns[1].to_s.strip
     if topic.length < 2
-      @failed_upload_questions <<  { :number => row_count, :reason => 'Invalid topic'}
+      @failed_upload_question_numbers <<  { :number => row_count, :reason => 'Invalid topic'}
       return
     end
 
     #    unless Question::Topics.include? topic
-    #      @failed_upload_questions <<  { :number => row_count, :reason => 'Invalid topic'}
+    #      @failed_upload_question_numbers <<  { :number => row_count, :reason => 'Invalid topic'}
     #      return
     #    end
 
     complexity = columns[2].to_s.strip
     if complexity.length < 2
-      @failed_upload_questions <<  { :number => row_count, :reason => 'Invalid topic'}
+      @failed_upload_question_numbers <<  { :number => row_count, :reason => 'Invalid topic'}
       return
     end
     
     #    unless Question::Complexities.include? complexity
-    #      @failed_upload_questions << { :number => row_count, :reason => 'Invalid complexity level'}
+    #      @failed_upload_question_numbers << { :number => row_count, :reason => 'Invalid complexity level'}
     #      return
     #    end
     
     statement_body = columns[3].to_s
     if statement_body.nil? or (statement_body.to_s.strip.size < 4)
-      @failed_upload_questions << { :number => row_count, :reason => 'Invalid question statement'}
+      @failed_upload_question_numbers << { :number => row_count, :reason => 'Invalid question statement'}
       return
     end
 
@@ -146,18 +146,18 @@ class QuestionImporter
     end
 
     if answers_statements.size < 2
-      @failed_upload_questions << { :number => row_count, :reason => 'Minimum 2 answers expected'}
+      @failed_upload_question_numbers << { :number => row_count, :reason => 'Minimum 2 answers expected'}
       return
     end
 
     if columns[9].to_s.strip.size < 1
-      @failed_upload_questions <<  { :number => row_count, :reason => 'Correct answer missing'}
+      @failed_upload_question_numbers <<  { :number => row_count, :reason => 'Correct answer missing'}
       return
     end
 
     correct_answers = columns[9].to_s.upcase.split(',').to_set
     unless correct_answers.subset?(available_answers.to_set)
-      @failed_upload_questions << { :number => row_count, :reason => 'Invalid correct answer'}
+      @failed_upload_question_numbers << { :number => row_count, :reason => 'Invalid correct answer'}
       return
     end
 
@@ -186,10 +186,12 @@ class QuestionImporter
     question.assign_objective_options objective_options
 
     if question.save
-      @successfuly_upload_questions << row_count
+      @successfuly_upload_question_numbers << row_count
+      @successfuly_upload_questions << question
+      
     else
       question.errors.full_messages.each do |error|
-        @failed_upload_questions << { :number => row_count, :reason => error}
+        @failed_upload_question_numbers << { :number => row_count, :reason => error}
       end
     end
   end

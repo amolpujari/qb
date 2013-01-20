@@ -75,10 +75,9 @@ class QuestionsController < ApplicationController
   def import
     if request.post?
 
-      @upload_error, @failed_upload_questions, @successfuly_upload_questions = QuestionImporter.new(params[:questions_file]).result
+      @upload_error, @failed_upload_question_numbers, @successfuly_upload_question_numbers, @questions  = QuestionImporter.new(params[:questions_file]).result
       
       if not @upload_error
-        @questions = Question.recently_uploaded @successfuly_upload_questions.size
         render :index, :notice => 'Questions uploaded!'
 
       else
