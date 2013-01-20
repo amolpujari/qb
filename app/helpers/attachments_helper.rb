@@ -11,8 +11,7 @@ module AttachmentsHelper
   end
 
   def attachments_form_for( attachable)
-    attachments = attachable.attachments.collect{
-      |attachment| attachment unless attachment.id.nil? }.compact
+    attachments = attachable.attachments.select{ |attachment| !(attachment.id.nil?) }
 
     max_allowed = attachable.class.to_s.constantize.max_attachments_allowed
     html = ''
