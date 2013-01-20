@@ -51,15 +51,15 @@ module AttachableModule
     end
 
     def image_attachments
-      self.attachments.collect { |attachment| attachment if attachment.image? }.compact
+      attachments.select { |attachment| attachment.image? }
     end
 
     def non_image_attachments
-      self.attachments.collect { |attachment| attachment  unless attachment.image? }.compact
+      attachments.select { |attachment| !attachment.image? }
     end
 
     def first_image_attachment
-      image_attachments[0] rescue nil
+      image_attachments.first
     end
   end
 end

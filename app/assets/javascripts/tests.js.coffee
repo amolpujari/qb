@@ -162,6 +162,3 @@
   return false  unless check_marks()
   true
 
-@conduct_test = (id) ->
-  $.get '/tests/'+id+'/conduct'
-

@@ -1,8 +1,22 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("a[rel='open_ajax']").live('click', function() {
+      $.colorbox({
+        href:$(this).attr('href'),
+        height: '300px',
+        width: '50%',
+        top: '100px'
+      });
+      return false;
+    });
+  });
+</script>
+
 <h3>Tests</h3>
 
 <div class="well" style="background-color: white;">
 
-  <%= will_paginate @tests if @tests%>
+  <%= will_paginate @tests rescue nil%>
 
   <table class="table table-striped">
     <thead>
@@ -30,7 +44,7 @@
             <%= test.title %>
           </td>
           <td>
-            <%= link_to 'Conduct', "/tests/#{test.id}/conduct", :remote => true %>
+            <%= link_to 'Conduct', "/tests/#{test.id}/conduct", :rel => 'open_ajax' %>
           </td>
           <td>
             <a href="#" onclick="window.location = '/tests/<%=test.id%>/sample?format=text'">Download Sample</a>

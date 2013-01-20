@@ -9,6 +9,8 @@ Qb::Application.routes.draw do
   resources :tests do 
     member do
       get 'sample'
+      get 'conduct'
+      post 'conduct'
     end
   end
 

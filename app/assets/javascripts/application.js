@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
+//= require jquery.colorbox
 
 function check_for_enter_pressed(e){
   if (e.keyCode == 13)

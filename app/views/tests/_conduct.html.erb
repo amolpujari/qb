@@ -1,0 +1,7 @@
+<%= form_tag "/tests/#{@test.id}/conduct", :method => :post, :remote => true, :id => 'test_conduct_form' do %>
+  Enter candidate emails (comma separated)
+  <br/><br/>
+  <%= text_area_tag(:candidate_emails, '', :rows => 5, :style => 'width:90%;', :autofocus => 'autofocus') %>
+  <br/><br/>
+  <%= submit_tag("Invite for Online Test") %>
+<%end%>

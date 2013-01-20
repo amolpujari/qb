@@ -5,6 +5,12 @@ class Test < ActiveRecord::Base
   validates :title, :length => { :in => 6..40 },
 		:uniqueness => { :case_sensitive => false }
   validates :duration, :numericality => { :greater_than => 9, :less_than => 121 }
+  
+  concerned_with :inviting
+
+  def conduct invitee_emails
+    TestInviter.invite(invitee_emails).to self
+  end
 
 	def update_test_topics param_test_topics
 	  existing_ids = []
@@ -17,7 +23,7 @@ class Test < ActiveRecord::Base
 		    existing.save
 			  existing_ids << existing.id
 			else
-			 test_topics.build param_test_topic
+        test_topics.build param_test_topic
 			end
 		end
 
@@ -37,11 +43,9 @@ class Test < ActiveRecord::Base
     test_topics.sum('number_of_questions * marks_for_each_question').to_i
   end
 
-  def sample
-    sample_questions
-  end
-
   def sample_questions
     test_topics.map(&:sample_questions).flatten
   end
+  alias :sample  :sample_questions
+
 end

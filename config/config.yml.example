@@ -1,6 +1,18 @@
+
 defaults: &defaults
 
 development:
-  allowed_email_domains: gslab.com, kpoint.com
-  open_registrations: false
+  mail_from: amol.testing123
+  mail_from_password: taktook123
+  exception_notifiers: amolp@gslab.com,divya@gslab.com,sachin.kadam@gslab.com,suhas.kodgire@gslab.com
+
+test:
+  mail_from: amol.testing123
+  mail_from_password: taktook123
+  exception_notifiers: amolp@gslab.com,divya@gslab.com,sachin.kadam@gslab.com,suhas.kodgire@gslab.com
+
+production:
+  mail_from: amol.testing123
+  mail_from_password: taktook123
+  exception_notifiers: amolp@gslab.com,divya@gslab.com,sachin.kadam@gslab.com,suhas.kodgire@gslab.com
 

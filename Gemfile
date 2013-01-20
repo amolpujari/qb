@@ -7,6 +7,10 @@ gem 'sass-rails',   '~> 3.2.3'
 gem 'coffee-rails', '~> 3.2.1'
 gem 'uglifier', '>= 1.0.3'
 
+group :development do
+  gem 'thin'
+end
+
 gem 'jquery-rails'
 gem "devise", ">= 2.1.0.rc"
 gem "devise_invitable", ">= 1.0.1"

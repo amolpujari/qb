@@ -18,6 +18,10 @@ class TestsController < ApplicationController
 
   def conduct
     if request.post?
+      @test.conduct params[:candidate_emails]
+      render :partial => 'invited_for_online_test'
+    else
+      render :partial => 'conduct'
     end
   end
 
@@ -63,7 +67,7 @@ class TestsController < ApplicationController
 
   def test
     @test ||= Test.find_by_id params[:id] || Test.new
-    @test_topics ||= @test and @test.test_topics
+    @test_topics ||= @test.test_topics if @test
     @test
   end
 
