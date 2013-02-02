@@ -73,6 +73,8 @@ module Qb
       :exception_recipients => ['amolp@gslab.com']
 
     config.after_initialize do
+      require 'nokogiri'
+
     end
   end
 end

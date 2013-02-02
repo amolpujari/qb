@@ -1,5 +1,6 @@
 class TestTopic < ActiveRecord::Base
   attr_accessible :topic, :complexity, :nature, :number_of_questions, :marks_for_each_question
+  
   belongs_to :test
 
   validates :topic,       :inclusion => { :in => Question.topic_names}

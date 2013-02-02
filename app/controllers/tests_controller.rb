@@ -1,7 +1,8 @@
 class TestsController < ApplicationController
+  layout 'one_column'
 
   before_filter :test
-  before_filter :available_questions, :only => [:new, :edit, :show]
+  before_filter :available_questions
   
   def index
     @tests = Test.all
@@ -36,6 +37,7 @@ class TestsController < ApplicationController
   end
 
   def create
+    @test.assign_attributes params[:test]
     @test.test_topics.build params[:test_topics]
     if @test.save
       redirect_to @test, :notice => "Successfully created test."
@@ -66,8 +68,8 @@ class TestsController < ApplicationController
   end
 
   def test
-    @test ||= Test.find_by_id params[:id] || Test.new
-    @test_topics ||= @test.test_topics if @test
+    @test ||= Test.find_by_id(params[:id]) || Test.new
+    @test_topics ||= @test.test_topics
     @test
   end
 

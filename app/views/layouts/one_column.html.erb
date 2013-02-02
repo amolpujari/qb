@@ -34,7 +34,7 @@
     <div class="container">
       <div class="module">
         <div class="row">
-          <div class="span8">
+          <div class="span12">
             <% flash.each do |name, msg| %>
               <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
                 <a class="close" data-dismiss="alert">×</a>
@@ -42,8 +42,6 @@
               </div>
             <% end %>
             <%= yield %>
-          </div>
-          <div class="span3">
           </div>
         </div>
         <footer>

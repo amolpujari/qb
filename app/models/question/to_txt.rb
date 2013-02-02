@@ -20,7 +20,7 @@ class Array
     text_answers = ''
     text = ''
     
-    each_with_index do |question, index|
+    compact.each_with_index do |question, index|
       text << "\n"
       text << "(#{index+1})"
       question_text, question_answer = question.to_txt

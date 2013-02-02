@@ -1,5 +1,5 @@
 class CreateTestPapers < ActiveRecord::Migration
-  def self.change
+  def change
     create_table :test_papers do |t|
       t.integer  :candidate_id
       t.column   :status, "ENUM('new', 'completed', 'in_progress') DEFAULT 'new' NOT NULL"

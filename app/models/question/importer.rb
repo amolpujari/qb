@@ -4,12 +4,14 @@ class QuestionImporter
   MIN_SIZE = 7168          #7Kb
   MAX_SIZE = 10485760      #10Mb
   
-  def initialize file
+  def initialize file, current_user
     #@upload_questions_moderator_id = nil
     #@upload_questions_status = 'moderated'
     @failed_upload_question_numbers = []
     @successfuly_upload_question_numbers = []
     @successfuly_upload_questions = []
+
+    @current_user = current_user
 
     if file.blank?
       @upload_error = 'Blank file'
@@ -42,13 +44,10 @@ class QuestionImporter
     end
     
     File.delete file_path
-
-    result
   end
 
-  def result
-    [@upload_error, @failed_upload_question_numbers, @successfuly_upload_question_numbers, @successfuly_upload_questions]
-  end
+  attr_reader :upload_error, :failed_upload_question_numbers, 
+  :successfuly_upload_question_numbers, :successfuly_upload_questions
 
   private
 
@@ -165,24 +164,24 @@ class QuestionImporter
     answers_statements.each_with_index do |answer_option, index|
 
       #      if (answer_option.class == Spreadsheet::Formula)
-      #        body = (answer_option.value == true) ? 'true' : 'false'
+      #        statement = (answer_option.value == true) ? 'true' : 'false'
       #      elsif (answer_option.class == TrueClass)
-      #        body = 'true'
+      #        statement = 'true'
       #      elsif (answer_option.class == FalseClass)
-      #        body = 'false'
+      #        statement = 'false'
       #      else
-      #        body = answer_option
+      #        statement = answer_option
       #      end
-      body = answer_option
+      statement = answer_option
 
       is_correct = correct_answers.include? available_answers[index]
 
-      objective_options << { :body => body, :is_correct => is_correct}
+      objective_options << { :statement => statement, :is_correct => is_correct}
     end
 
     question = Question.new :complexity_list => complexity, :topic_list => topic, :nature_list => 'Objective'
-    question.statement = Statement.new :body => statement_body
-    question.statement.user = current_user
+    question.statement = statement_body
+    question.submitter = @current_user
     question.assign_objective_options objective_options
 
     if question.save

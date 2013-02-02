@@ -74,8 +74,12 @@ class QuestionsController < ApplicationController
 
   def import
     if request.post?
+      importer = QuestionImporter.new params[:questions_file], current_user
 
-      @upload_error, @failed_upload_question_numbers, @successfuly_upload_question_numbers, @questions  = QuestionImporter.new(params[:questions_file]).result
+      @upload_error = importer.upload_error
+      @failed_upload_question_numbers = importer.failed_upload_question_numbers
+      @successfuly_upload_question_numbers = importer.successfuly_upload_question_numbers
+      @questions = importer.successfuly_upload_questions
       
       if not @upload_error
         render :index, :notice => 'Questions uploaded!'
@@ -105,14 +109,6 @@ class QuestionsController < ApplicationController
   end
 
   def question
-    @question ||= Question.find_by_id params[:id] || Question.new
-    @question.statement ||= statement if @question
-    @question
-  end
-
-  def statement
-    @statement ||= @question.statement
-    @statement ||= Statement.new params[:statement] unless params[:statement].blank?
-    @statement ||= Statement.new
+    @question ||= Question.find_by_id(params[:id]) || Question.new
   end
 end

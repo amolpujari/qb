@@ -6,7 +6,7 @@
     <br/><i>by <%=@question.user.email%></i>
   </p>
   <p>
-    <%= @question.statement.body.html_safe %>
+    <%= @question.statement.html_safe %>
   </p>
   <p>
     Complexity: <%= @question.complexity %>

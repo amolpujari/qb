@@ -1,5 +1,5 @@
 class CreateTests < ActiveRecord::Migration
-  def self.up
+  def change
     create_table :tests do |t|
       t.string  :title
       t.integer :duration
@@ -19,10 +19,5 @@ class CreateTests < ActiveRecord::Migration
 
       t.timestamps
     end
-  end
-  
-  def self.down
-    drop_table :tests
-    drop_table :test_topics
   end
 end

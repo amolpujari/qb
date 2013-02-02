@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120425135811) do
+ActiveRecord::Schema.define(:version => 20130121191757) do
 
   create_table "attachments", :force => true do |t|
     t.integer  "attachable_id"
@@ -26,16 +26,28 @@ ActiveRecord::Schema.define(:version => 20120425135811) do
 
   add_index "attachments", ["attachable_id"], :name => "index_attachments_on_attachable_id"
 
+  create_table "candidates", :force => true do |t|
+    t.string   "first_name", :null => false
+    t.string   "last_name",  :null => false
+    t.string   "email",      :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "candidates", ["email"], :name => "index_candidates_on_email"
+
   create_table "objective_options", :force => true do |t|
-    t.text    "body"
+    t.text    "statement"
     t.integer "question_id"
     t.boolean "is_correct",  :default => false, :null => false
   end
 
   create_table "questions", :force => true do |t|
-    t.boolean  "delta",      :default => true, :null => false
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
+    t.boolean  "delta",        :default => true, :null => false
+    t.text     "statement"
+    t.integer  "submitter_id"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   create_table "roles", :force => true do |t|
@@ -48,15 +60,6 @@ ActiveRecord::Schema.define(:version => 20120425135811) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
-
-  create_table "statements", :force => true do |t|
-    t.text     "body"
-    t.integer  "user_id"
-    t.integer  "statement_for_id"
-    t.string   "statement_for_type"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
-  end
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"
@@ -74,6 +77,38 @@ ActiveRecord::Schema.define(:version => 20120425135811) do
   create_table "tags", :force => true do |t|
     t.string "name"
   end
+
+  create_table "test_paper_questions", :force => true do |t|
+    t.integer  "test_paper_id"
+    t.integer  "question_id"
+    t.integer  "candidate_objective_answer_id"
+    t.text     "candidate_subjective_answer_statement"
+    t.boolean  "marked_for_revisit",                    :default => false
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
+  end
+
+  add_index "test_paper_questions", ["test_paper_id"], :name => "index_test_paper_questions_on_test_paper_id"
+
+  create_table "test_paper_results", :force => true do |t|
+    t.integer  "test_paper_id"
+    t.integer  "objective_score",  :default => 0
+    t.integer  "subjective_score", :default => 0
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+  end
+
+  add_index "test_paper_results", ["test_paper_id"], :name => "index_test_paper_results_on_test_paper_id"
+
+  create_table "test_papers", :force => true do |t|
+    t.integer  "candidate_id"
+    t.string   "status",                   :limit => 0, :default => "new", :null => false
+    t.integer  "duration_left_in_minutes"
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
+  end
+
+  add_index "test_papers", ["candidate_id"], :name => "index_test_papers_on_candidate_id"
 
   create_table "test_topics", :force => true do |t|
     t.integer  "test_id"

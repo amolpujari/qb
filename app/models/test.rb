@@ -30,8 +30,6 @@ class Test < ActiveRecord::Base
   end
 
   def existing_topic topic, complexity, nature
-		#@_test_topics ||= test_topics || []
-    #@_test_topics.where( :topic => topic, :complexity => complexity, :nature => nature).first
     test_topics.where( :topic => topic, :complexity => complexity, :nature => nature).first
   end
   

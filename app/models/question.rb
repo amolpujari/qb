@@ -1,6 +1,7 @@
 class Question < ActiveRecord::Base
-  has_one :statement, :dependent => :destroy, :as => :statement_for
-  has_one :user, :through => :statement
+  belongs_to :submitter, :class_name => 'User'
+  
+  can_have_attachments :max => 5
 
   resourcify
 
@@ -8,11 +9,13 @@ class Question < ActiveRecord::Base
 
   attr_accessor :marks
 
-  def title
-    "#{self.text_body[0..200]} ..."
+  def text
+    Nokogiri::HTML(statement).text
   end
-
-  delegate :body, :text_body, :to => :statement
+  
+  def title
+    "#{self.text[0..200]} ..."
+  end
 
   def self.available_for_test
     topics.product(complexities, natures).collect do |topic_complexity_nature|

@@ -1,13 +1,13 @@
 <%= form_for @question, :html => { :multipart => true, :class => 'form-horizontal' } do |f| %>
   <fieldset>
     <%= raw errors_for @question %>
-    <%= (input_multiline_text 'body', { :autofocus => 'autofocus', :object => 'statement' , :label => '', :html => " autofocus='autofocus' height='300px'"}).html_safe  %>
+    <%= (input_multiline_text 'statement', { :textarea_cols => 80, :autofocus => 'autofocus', :label => '', :html => " autofocus='autofocus' width='96%' height='300px'"}).html_safe  %>
 
     <div class="control-group">
       <table>
         <tr>
 
-          <td style="width:770px;">
+          <td class="span6">
             <!--<#% #raw input_attachments :object => 'statement' %>-->
           </td>
 

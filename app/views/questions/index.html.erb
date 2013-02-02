@@ -1,5 +1,3 @@
-<h3>Questions</h3>
-
 <div class="well" style="background-color: white;">
 
   <%= will_paginate @questions rescue nil%>
@@ -32,7 +30,7 @@
         <tr>
           <td>
             <%= question.title %>
-            <br/><i style="color:#aaa;"> by <%=question.user.email%></i>
+            <br/><i style="color:#aaa;"> by <%=question.submitter.email%></i>
           </td>
           <td>
             <%= question.complexity %>

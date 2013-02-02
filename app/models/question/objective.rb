@@ -4,7 +4,7 @@ class Question < ActiveRecord::Base
   def options
     return unless is_objective?
     
-    objective_options.select{ |option| option.body and option.body.strip.length > 0 }
+    objective_options.select{ |option| option.statement  and option.statement .strip.length > 0 }
   end
 
   def update_objective_options options
@@ -17,7 +17,7 @@ class Question < ActiveRecord::Base
       updated_one = options.pop
 
       if updated_one
-        existing.body       = updated_one[:body]
+        existing.statement  = updated_one[:statement]
         existing.is_correct = updated_one[:is_correct]
         existing.save
       else
@@ -40,7 +40,7 @@ class Question < ActiveRecord::Base
       updated_one = options.pop
 
       if updated_one
-        existing.body       = updated_one[:body]
+        existing.statement  = updated_one[:statement]
         existing.is_correct = updated_one[:is_correct]
         #existing.save
       else
