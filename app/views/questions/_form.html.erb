@@ -71,20 +71,20 @@
   function nature_changed(nature){
     if (nature=='Objective'){
       //$("#objective_options").show();
-      $("#objective_options").effect('highlight',null,'slow');
+      $("#objective_options").show('highlight',null,'slow');
     }
     else{
-      $("#objective_options").effect('fade',null,'slow');
+      $("#objective_options").hide('fade',null,'slow');
     }
   }
   nature_changed($('#question_nature_list').val());
 
   function topic_changed(topic){
-    if (topic=='Other'){
-      $("#other_topic").effect('highlight',null,'slow');
+    if (topic==='Other'){
+      $("#other_topic").show('highlight',null,'slow');
     }
     else{
-      $("#other_topic").effect('fade',null,'slow');
+      $("#other_topic").hide('fade',null,'slow');
     }
   }
   topic_changed($('#question_topic_list').val());
