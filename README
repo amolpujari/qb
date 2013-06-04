@@ -1,1 +1,8 @@
-TBD...
+
+`bundle`
+`bundle exec db:create`
+`bundle exec db:migrate`
+
+`#edit setup rake task, add email/login`
+`bundle exec setup`
+

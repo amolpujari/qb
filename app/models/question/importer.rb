@@ -3,16 +3,23 @@ require 'rubyXL'
 class QuestionImporter
   MIN_SIZE = 7168          #7Kb
   MAX_SIZE = 10485760      #10Mb
+
+  def current_user= user
+    @current_user = user
+  end
   
-  def initialize file, current_user
+  def initialize file=nil, current_user=nil
     #@upload_questions_moderator_id = nil
     #@upload_questions_status = 'moderated'
     @failed_upload_question_numbers = []
     @successfuly_upload_question_numbers = []
     @successfuly_upload_questions = []
-
     @current_user = current_user
 
+    validate_and_parse file, current_user if file and current_user
+  end
+
+  def validate_and_parse file, current_user
     if file.blank?
       @upload_error = 'Blank file'
       return
@@ -48,8 +55,6 @@ class QuestionImporter
 
   attr_reader :upload_error, :failed_upload_question_numbers, 
   :successfuly_upload_question_numbers, :successfuly_upload_questions
-
-  private
 
   def save_file_on_disk(file)
     begin

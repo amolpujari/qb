@@ -1,19 +1,34 @@
 source 'https://rubygems.org'
-gem 'rails', '3.2.3'
+gem 'rails', '3.2.13'
 gem 'mysql2'
 #gem 'pg' # for heroku
 
-gem 'sass-rails',   '~> 3.2.3'
-gem 'coffee-rails', '~> 3.2.1'
-gem 'uglifier', '>= 1.0.3'
+gem 'sass-rails'#,   '~> 3.2.3'
+gem 'coffee-rails'#, '~> 3.2.1'
+gem 'uglifier'#, '>= 1.0.3'
 
 group :development do
-  gem 'thin'
+  # Pretty printed test output
+  gem "wirble"
+  gem "hirb"
+
+  gem 'growl'
+  gem 'spork', '~> 1.0rc'
+
+  gem 'rails_best_practices'
+  gem 'railroady'
+  gem 'cane'
+  gem 'brakeman', :require => false  
+  gem 'mail'
+
+  gem 'traceroute'
+  gem 'rack-webconsole'
+  gem 'puma'
 end
 
 gem 'jquery-rails'
-gem "devise", ">= 2.1.0.rc"
-gem "devise_invitable", ">= 1.0.1"
+gem "devise"#, ">= 2.1.0.rc"
+#gem "devise_invitable"#, ">= 1.0.1"
 gem "cancan", ">= 1.6.7"
 gem "rolify", ">= 3.1.0"
 gem "twitter-bootstrap-rails", ">= 2.0.3", :group => :assets

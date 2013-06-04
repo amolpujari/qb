@@ -11,9 +11,9 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery_ujs
-//= require twitter/bootstrap
+//= require jquery-ui
 //= require jquery.colorbox
+//= require twitter/bootstrap
 
 function check_for_enter_pressed(e){
   if (e.keyCode == 13)
