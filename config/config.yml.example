@@ -3,16 +3,16 @@ defaults: &defaults
 
 development:
   mail_from: amol.testing123
-  mail_from_password: taktook123
-  exception_notifiers: amolp@gslab.com,divya@gslab.com,sachin.kadam@gslab.com,suhas.kodgire@gslab.com
+  mail_from_password:
+  exception_notifiers: amolp@gslab.com
 
 test:
   mail_from: amol.testing123
-  mail_from_password: taktook123
-  exception_notifiers: amolp@gslab.com,divya@gslab.com,sachin.kadam@gslab.com,suhas.kodgire@gslab.com
+  mail_from_password:
+  exception_notifiers: amolp@gslab.com
 
 production:
   mail_from: amol.testing123
-  mail_from_password: taktook123
-  exception_notifiers: amolp@gslab.com,divya@gslab.com,sachin.kadam@gslab.com,suhas.kodgire@gslab.com
+  mail_from_password:
+  exception_notifiers: amolp@gslab.com
 
