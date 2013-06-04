@@ -8,7 +8,6 @@ class Test < ActiveRecord::Base
   concerned_with :inviting
 
   def conduct invitee_emails
-    TestInviter.invite(invitee_emails).to self
   end
 
 	def update_test_topics param_test_topics

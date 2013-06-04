@@ -3,7 +3,7 @@ class Question < ActiveRecord::Base
     text_answer = ''
     
     option_labels = ['a', 'b', 'c', 'd', 'e']
-    str = "\n#{text_body}\n\n Options:\n\n"
+    str = "\n#{text}\n\n Options:\n\n"
     objective_options.each_with_index do |option, index|
       str << "(#{option_labels[index]})\n#{option.to_txt}\n\n"
       
