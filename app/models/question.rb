@@ -1,4 +1,6 @@
 class Question < ActiveRecord::Base
+  attr_accessible :statement
+
   belongs_to :submitter, :class_name => 'User'
   
   can_have_attachments :max => 5

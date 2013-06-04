@@ -24,17 +24,15 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @statement.user = current_user
-    
+    @question.submitter = current_user
     @question.assign_attributes params[:question]
     @question.topic_list = params[:question][:topic_list] unless params[:question][:topic_list].blank?
     @question.assign_objective_options params[:objective_options]
 
-    if @statement.save_attachments(params[:attachment]) and @question.save!
+    if @question.save_attachments(params[:attachment]) and @question.save!
       redirect_to @question, :notice => "Successfully created question."
 
     else
-      @question.errors[:base] << @statement.errors
       @question.errors[:base] << @attachments_errors
       render :new
     end
@@ -44,7 +42,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.user != current_user
+    if @question.submitter != current_user
       flash[:error] = "For now, only owner can edit this."
       render :edit
       return
@@ -56,11 +54,10 @@ class QuestionsController < ApplicationController
     
     @question.assign_attributes :delta => true
     
-    if @statement.save_attachments(params[:attachment]) and @statement.update_attributes(params[:statement]) and @question.save
+    if @question.save_attachments(params[:attachment]) and @question.update_attributes(params[:statement]) and @question.save
       redirect_to @question, :notice  => "Successfully updated question."
 
     else
-      @question.errors[:base] << @statement.errors
       @question.errors[:base] << @attachments_errors
       render :edit
     end

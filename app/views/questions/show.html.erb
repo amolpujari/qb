@@ -3,7 +3,7 @@
 <div class="well">
   <p>
     <%= @question.title %>
-    <br/><i>by <%=@question.user.email%></i>
+    <br/><i>by <%=@question.submitter.email%></i>
   </p>
   <p>
     <%= @question.statement.html_safe %>
@@ -15,7 +15,7 @@
     Topic: <%= @question.topic %>
   </p>
   <p>
-    <%= raw attachments_show @question.statement %>
+    <%= raw attachments_show @question %>
   </p>
 
 </div>

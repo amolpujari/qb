@@ -7,10 +7,15 @@ class Question < ActiveRecord::Base
     objective_options.select{ |option| option.statement  and option.statement .strip.length > 0 }
   end
 
+  def validate_options options
+    true
+  end
+
   def update_objective_options options
     return objective_options.destroy unless options
+    return unless validate_options options
 
-    options = options.values if options.is_a? Hash.collect
+    options = options.values if options.is_a? Hash
     options.reverse!
 
     self.objective_options.each do |existing|
@@ -32,6 +37,7 @@ class Question < ActiveRecord::Base
 
   def assign_objective_options options
     return objective_options.destroy unless options
+    return unless validate_options options
 
     options = options.values if options.is_a? Hash
     options.reverse!
