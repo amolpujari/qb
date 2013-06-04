@@ -5,7 +5,7 @@ class Test < ActiveRecord::Base
   validates :title, :length => { :in => 6..40 }, :uniqueness => { :case_sensitive => false }
   validates :duration, :numericality => { :greater_than => 9, :less_than => 121 }
   
-  concerned_with :inviting
+  concerned_with :conductable
 
   def conduct invitee_emails
   end

@@ -29,3 +29,14 @@ function isArrowKeyPressed(e){
   }
   return false;
 }
+
+function open_colorbox(get_url){
+  $.colorbox({
+    href: get_url,
+    height: '300px',
+    width: '50%',
+    top: '100px'
+  });
+  return false;
+}
+
