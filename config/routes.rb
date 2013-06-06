@@ -14,6 +14,8 @@ Qb::Application.routes.draw do
     end
   end
 
+  get '/schedules' => "test_papers#index"
+
   delete '/attachments/:id' => 'attachments#delete'
 
   authenticated :user do

@@ -8,8 +8,8 @@ class QuestionsController < ApplicationController
 
     # http://stackoverflow.com/questions/2082399/thinking-sphinx-and-acts-as-taggable-on-plugin
 
-    @questions = Question.tagged_with(tags, :match_all => false).paginate(:page => params[:page]) unless tags.blank?
-    @questions ||= Question.paginate(:page => params[:page])
+    @questions = Question.tagged_with(tags, :match_all => false).page(@page).per(@per_page) unless tags.blank?
+    @questions ||= Question.page(@page).per(@per_page)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -82,7 +82,7 @@ class QuestionsController < ApplicationController
         render :index, :notice => 'Questions uploaded!'
 
       else
-        @questions = Question.paginate(:page => params[:page])
+        @questions = Question.page(@page).per(@per_page)
         flash[:error] = "Questions upload failed: #{@upload_error}"
         render :index
       end

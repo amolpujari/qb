@@ -6,4 +6,4 @@ Qb::Application.initialize!
 
 ThinkingSphinx.suppress_delta_output = true
 
-WillPaginate.per_page = 30
+

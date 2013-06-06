@@ -1,0 +1,39 @@
+<div class="well" style="background-color: white;">
+
+  <%= paginate @test_papers%>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Candidate</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>  
+    <tbody>
+      <% @test_papers.each do |test_paper| %>
+        <tr>
+          <td>
+            <%= test_paper.candidate.email %>
+            <br/><i style="color:#aaa;"> <%= test_paper.summary %></i>
+          </td>
+          <td>
+            <%= test_paper.status %>
+            <br/><i style="color:#aaa;"> by <%= test_paper.scheduler %></i>
+          </td>
+          <td>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="well" style="min-height:40px;">
+  <div style="float:left">
+  </div>
+
+  <div style="float:right;padding-top:30px;">
+  </div>
+</div>
+

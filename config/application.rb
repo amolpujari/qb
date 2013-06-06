@@ -75,7 +75,7 @@ module Qb
 
     config.after_initialize do
       require 'nokogiri'
-
+      TestTopic.name
     end
   end
 end

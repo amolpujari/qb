@@ -19,8 +19,8 @@ class TestsController < ApplicationController
 
   def conduct
     if request.post?
-      @test.conduct params[:candidate_emails]
-      render :partial => 'invited_for_online_test'
+      status = @test.conduct params[:candidate_emails], current_user
+      render :text => status
     else
       render :partial => 'conduct'
     end
@@ -49,13 +49,11 @@ class TestsController < ApplicationController
   def update
     @test.assign_attributes params[:test]
     @test.update_test_topics params[:test_topics]
-
     if @test.save
       redirect_to @test, :notice => "Successfully updated test."
     else
       render '/tests/edit'
     end
-    
   end
 
   def destroy

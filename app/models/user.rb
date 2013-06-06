@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
 
   concerned_with :allowed_email_domains
 
-  def name
+  def to_s
     "#{first_name} #{last_name}"
   end
 end
