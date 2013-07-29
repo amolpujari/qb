@@ -16,6 +16,8 @@ Qb::Application.routes.draw do
 
   get '/schedules' => "test_papers#index"
 
+  get  '/mytest/:pin'    => "candidates#mytest"
+
   delete '/attachments/:id' => 'attachments#delete'
 
   authenticated :user do

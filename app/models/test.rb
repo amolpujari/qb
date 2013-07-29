@@ -1,3 +1,6 @@
+module Test
+end
+
 class Test < ActiveRecord::Base
   attr_accessible :title, :duration
 
@@ -70,6 +73,7 @@ class Test < ActiveRecord::Base
   def sample_questions
     test_topics.map(&:sample_questions).flatten
   end
-  alias :sample  :sample_questions
+  
+  alias_method :sample,  :sample_questions
 
 end

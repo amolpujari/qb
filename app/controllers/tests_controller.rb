@@ -5,7 +5,7 @@ class TestsController < ApplicationController
   before_filter :available_questions
   
   def index
-    @tests = Test.all
+    @tests = Test.page(@page).per(@per_page)
   end
 
   def sample

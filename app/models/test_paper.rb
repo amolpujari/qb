@@ -6,9 +6,11 @@ class TestPaper < ActiveRecord::Base
   validates :minutes_left,     :numericality => { :greater_than => -1, :less_than => 60  }, :allow_nil => true
   validates :objective_score,  :numericality => { :greater_than => -1, :less_than => 100 }, :allow_nil => true
 
+  scope :scheduled, where(:status => "scheduled")
+
   def before_create
     objective_score = 0
-    pin = Time.now.to_i.to_s
+    pin = Base64.encode64(Digest::MD5.hexdigest(SecureRandom.uuid.delete('-'  ))).strip
   end
 
   def questions= question_ids

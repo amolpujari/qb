@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>TestMate</title>
+    <link href="/stylesheets/testmate.css" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/default.css" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/alert.css" rel="stylesheet" type="text/css" />
+    <link type="text/css" rel="stylesheet" media="screen" href="/stylesheets/calendar_date_select/default.css"></link>
+    <%= javascript_include_tag :defaults -%>
+    <%= csrf_meta_tag %>
+    <script type="text/javascript" src="/javascripts/window.js"> </script>
+    <script type="text/javascript" src="/javascripts/calendar_date_select/calendar_date_select.js"></script>
+    <script type="text/javascript" src="/javascripts/candidates.js"> </script>
+  </head>
+
+  <body>
+    <noscript class="no-javascript"> 
+      <p> This page uses Javascript. Your browser either doesn't support Javascript or you have it turned off.</p>
+    </noscript>
+    <!--Main Wrapper -->
+    <div id="main_home">
+      <!--Inner Wrapper -->
+      <!-- Flash bar -->
+      <div id="flash_notice"><%= render :partial => 'layouts/flash_bar' -%></div>
+      <!-- Flash bar ends -->
+      <div id="wrapper">        	
+        <!--header starts -->
+        <%= render :partial => 'candidates/header' -%>
+        <!--header ends -->
+        <!--content -->
+        <div id="mid_content_new">
+          <!--left -->
+          <%= render :partial => 'candidates/left' -%>
+          <!--right starts -->
+          <div id="content_right">
+            <div class="title">Candidate Information</div>
+            <div class="txt" id="login_container">
+              <p>Enter your details to begin test. </p>  <br />
+              <!-- whizard starts-->
+              <div id="whizard">
+                <div id="wizard_personal_details" class="personal_act"><a href="javascript:show_personal_div()" onclick="return validate_div();"><img src="/images/active.gif" id="personal_img" />
+                    <br /> Personal Details  </a>
+                </div>
+                <div id="wizard_educational_details" class="edu_inact"><a href="javascript:show_edu_div()" onclick="return validate_div();"><img src="/images/inactive.gif" id="educational_img" />
+                    <br /> Educational Details  </a>                                                                  </div>
+                <div id="wizard_tpin_details" class="tpin_inact"><a href="javascript:show_testmate_event_pin_div()" onclick="return validate_div();"><img src="/images/inactive.gif" id="tpin_img" />
+                    <br />Event Pin</a>
+                </div>
+              </div>
+              <!--whizard ends-->
+              <p class="italic_txt"> <br /> <br /><span class="manditory">*</span> Required Information</p>
+              <!-- Form content -->
+              <%=yield%>
+              <!-- Form content ends -->
+            </div>
+          </div>
+          <!--right ends -->
+          <!--left ends -->
+
+          <div class="clear" ></div>
+        </div>
+        <!--content ends -->
+      </div>
+      <!--Inner Wrapper Ends -->
+      <!--Footer -->
+      <%= render :partial => 'candidates/footer' -%>
+      <!--Footer ends -->
+      <div class="clear"></div>
+    </div>
+    <!--Main Wrapper Ends -->
+  </body>
+</html>
+<script type="text/javascript">
+  show_personal_div();
+
+  <% if controller_name == 'candidates' && action_name == 'new' %>
+    if (check_browser()){
+      check_popup_blocked();
+    }
+  <% end %>
+</script>
